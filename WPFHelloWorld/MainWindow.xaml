@@ -1,0 +1,57 @@
+﻿<Window x:Class="WPFHelloWorld.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFHelloWorld"
+        xmlns:views="clr-namespace:WPFHelloWorld.Views"
+        mc:Ignorable="d"
+        Title="Circuit Simulator ⚡" Width="900" Height="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <ListBox x:Name="ComponentList" Background="#FFF0EBEB" Width="250" Grid.Column="0" 
+                     MouseMove="Component_MouseMove" 
+                    >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding Image}" Width="50" Height="50" Margin="5"/>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="5"/>
+                                <!--<TextBlock Text="{Binding Value}" Margin="5"/>-->
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Canvas x:Name="CircuitCanvas" Background="White" Grid.Column="1" 
+                    AllowDrop="True" 
+                    Drop="Canvas_Drop" 
+                    MouseMove="Canvas_MouseMove">
+            </Canvas>
+        </Grid>
+
+        <StatusBar Background="#1f88d9" Height="25" Grid.Row="1">
+            <StatusBarItem HorizontalAlignment="Right" Margin="0,0,20,0" >
+                <TextBlock Name="lblCursorPosition" />
+
+            </StatusBarItem>
+
+        </StatusBar>
+    </Grid>
+</Window>
