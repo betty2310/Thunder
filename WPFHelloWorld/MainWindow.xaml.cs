@@ -12,7 +12,7 @@ namespace WPFHelloWorld
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<ResistorView> Components { get; set; }
+        public ObservableCollection<UserControl> Components { get; set; }
 
         // public static readonly DependencyProperty IsChildHitProperty = DependencyProperty.Register("IsChildHitTestVisible", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
 
@@ -28,10 +28,10 @@ namespace WPFHelloWorld
             //    new Ground { Name = "Ground"}
             //};
 
-            Components = new ObservableCollection<ResistorView> {
-                new ResistorView{ CP_name = "resistor 1" },
-                new ResistorView{ CP_name = "resistor 2"},
-                new ResistorView{ CP_name = "resistor 3" },
+            Components = new ObservableCollection<UserControl> {
+                new ResistorView{ CP_name = "Resistor", CP_color="Red"},
+                new VoltageView{ CP_name = "Voltage", CP_color="Blue"},
+                new GroundView { CP_name = "Ground", CP_color="gray"}
             };
 
             // Set the data context for the ListBox
@@ -40,10 +40,25 @@ namespace WPFHelloWorld
         private void Component_MouseMove(object sender, MouseEventArgs e)
         {
             ListBox listBox = sender as ListBox;
-            ResistorView component = listBox.SelectedItem as ResistorView;
+            UserControl component = listBox.SelectedItem as UserControl;
             if (component != null && e.LeftButton == MouseButtonState.Pressed)
             {
-                ResistorView newComponent = new ResistorView();
+                string name = listBox.SelectedItem.GetType().Name;
+                UserControl newComponent = new UserControl();
+
+                if (name == "ResistorView")
+                {
+                    newComponent = new ResistorView();
+                }
+                else if (name == "VoltageView")
+                {
+                    newComponent = new VoltageView();
+                }
+                else if (name == "GroundView")
+                {
+                    newComponent = new GroundView();
+                }
+
                 DragDrop.DoDragDrop(component, newComponent, DragDropEffects.Move);
             }
         }
@@ -59,26 +74,55 @@ namespace WPFHelloWorld
             //Canvas.SetLeft(component, position.X);
             //Canvas.SetTop(component, position.Y);
             //CircuitCanvas.Children.Add(component);
-
+            UserControl component = new UserControl();
             object data = e.Data.GetData(typeof(ResistorView));
-            if (data != null)
+            if (data == null)
             {
-                ResistorView component = data as ResistorView;
-                Point position = e.GetPosition(CircuitCanvas);
-                Canvas.SetLeft(component, position.X);
-                Canvas.SetTop(component, position.Y);
-                CircuitCanvas.Children.Add(component);
+                data = e.Data.GetData(typeof(VoltageView));
+                if (data == null)
+                {
+                    data = e.Data.GetData(typeof(GroundView));
+                    component = data as GroundView;
+                }
+                else
+                {
+                    component = data as VoltageView;
+                }
             }
+            else
+            {
+                component = data as ResistorView;
+            }
+
+            Point position = e.GetPosition(CircuitCanvas);
+            Canvas.SetLeft(component, position.X);
+            Canvas.SetTop(component, position.Y);
+            CircuitCanvas.Children.Add(component);
+
         }
 
         private void Canvas_DragLeave(object sender, DragEventArgs e)
         {
+            UserControl component = new UserControl();
             object data = e.Data.GetData(typeof(ResistorView));
-            if (data != null)
+            if (data == null)
             {
-                ResistorView component = data as ResistorView;
-                CircuitCanvas.Children.Remove(component);
+                data = e.Data.GetData(typeof(VoltageView));
+                if (data == null)
+                {
+                    data = e.Data.GetData(typeof(GroundView));
+                    component = data as GroundView;
+                }
+                else
+                {
+                    component = data as VoltageView;
+                }
             }
+            else
+            {
+                component = data as ResistorView;
+            }
+            CircuitCanvas.Children.Remove(component);
 
         }
 

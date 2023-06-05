@@ -21,7 +21,7 @@
             </Grid.ColumnDefinitions>
 
             <ListBox x:Name="ComponentList" Background="#FFF0EBEB" Width="250" Grid.Column="0" 
-                     MouseMove="Component_MouseMove" 
+                     MouseMove="Component_MouseMove" Cursor="Hand" 
                     >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -30,9 +30,9 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <!--<Image Source="{Binding Image}" Width="50" Height="50" Margin="5"/>-->
+                            <Rectangle Fill="{Binding CP_color}" Grid.Column="0" Height="20" Width="20"/>
                             <StackPanel Grid.Column="1">
-                                <TextBlock Text="{Binding CP_name}" FontWeight="Bold" Margin="5"/>
+                                <TextBlock Text="{Binding CP_name}" Margin="10" FontSize="15"/>
                                 <!--<TextBlock Text="{Binding Value}" Margin="5"/>-->
                             </StackPanel>
                         </Grid>

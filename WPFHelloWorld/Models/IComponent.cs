@@ -1,0 +1,7 @@
+﻿namespace WPFHelloWorld
+{
+    interface IComponent
+    {
+
+    }
+}

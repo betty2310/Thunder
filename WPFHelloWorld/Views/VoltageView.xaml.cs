@@ -6,21 +6,19 @@ using WPFHelloWorld;
 namespace CircuitSimulator.Views
 {
     /// <summary>
-    /// Interaction logic for ResistorView.xaml
+    /// Interaction logic for VoltageView.xaml
     /// </summary>
-    public partial class ResistorView : UserControl, IComponent
+    public partial class VoltageView : UserControl, IComponent
     {
-
         public string CP_name { get; set; }
         public string CP_color { get; set; }
 
-        public ResistorView()
+        public VoltageView()
         {
             InitializeComponent();
         }
 
-
-        private void Resistor_MouseMove(object sender, MouseEventArgs e)
+        private void Voltage_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
