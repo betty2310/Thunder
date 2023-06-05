@@ -1,12 +1,9 @@
-﻿using System;
+﻿using CircuitSimulator.Views;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using WPFHelloWorld.Models;
 
 namespace WPFHelloWorld
 {
@@ -15,31 +12,39 @@ namespace WPFHelloWorld
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<Component> Components { get; set; }
+        public ObservableCollection<ResistorView> Components { get; set; }
+
+        // public static readonly DependencyProperty IsChildHitProperty = DependencyProperty.Register("IsChildHitTestVisible", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
 
         public MainWindow()
         {
             InitializeComponent();
 
             // Create example resistors
-            Components = new ObservableCollection<Component>
-        {
-            new Resistor { Name = "Resistor", Value = 100, Image = new BitmapImage(new Uri("resistor1.png", UriKind.Relative)) },
-            new Voltage { Name = "Voltage", Image = new BitmapImage(new Uri("voltage1.png", UriKind.Relative))},
-            new Ground { Name = "Ground"}
+            //Components = new ObservableCollection<Component>
+            //{
+            //    new Resistor { Name = "Resistor", Value = 100, Image = new BitmapImage(new Uri("resistor1.png", UriKind.Relative)) },
+            //    new Voltage { Name = "Voltage", Image = new BitmapImage(new Uri("voltage1.png", UriKind.Relative))},
+            //    new Ground { Name = "Ground"}
+            //};
+
+            Components = new ObservableCollection<ResistorView> {
+                new ResistorView{ CP_name = "resistor 1" },
+                new ResistorView{ CP_name = "resistor 2"},
+                new ResistorView{ CP_name = "resistor 3" },
             };
 
-            // Set the data context for the ListBox
             // Set the data context for the ListBox
             ComponentList.ItemsSource = Components;
         }
         private void Component_MouseMove(object sender, MouseEventArgs e)
         {
             ListBox listBox = sender as ListBox;
-            Component component = listBox.SelectedItem as Component;
+            ResistorView component = listBox.SelectedItem as ResistorView;
             if (component != null && e.LeftButton == MouseButtonState.Pressed)
             {
-                DragDrop.DoDragDrop(ComponentList, ComponentList, DragDropEffects.Copy);
+                ResistorView newComponent = new ResistorView();
+                DragDrop.DoDragDrop(component, newComponent, DragDropEffects.Move);
             }
         }
 
@@ -47,30 +52,33 @@ namespace WPFHelloWorld
 
         private void Canvas_Drop(object sender, DragEventArgs e)
         {
-            Rectangle rectangle = new Rectangle();
-            rectangle.Width = 30;
-            rectangle.Height = 30;
-            rectangle.Fill = new SolidColorBrush(Colors.Red);
-            string component = ComponentList.SelectedItem.ToString();
-            switch (component)
-            {
-                case "resistor":
-                    rectangle.Fill = new SolidColorBrush(Colors.Red);
-                    break;
-                case "voltage":
-                    rectangle.Fill = new SolidColorBrush(Colors.Blue);
-                    break;
-                case "ground":
-                    rectangle.Fill = new SolidColorBrush(Colors.Green);
-                    break;
-                default:
-                    break;
-            }
 
-            Point position = e.GetPosition(CircuitCanvas);
-            Canvas.SetLeft(rectangle, position.X);
-            Canvas.SetTop(rectangle, position.Y);
-            CircuitCanvas.Children.Add(rectangle);
+            //ResistorView component = ComponentList.SelectedItem as ResistorView;
+            //component = new ResistorView();
+            //Point position = e.GetPosition(CircuitCanvas);
+            //Canvas.SetLeft(component, position.X);
+            //Canvas.SetTop(component, position.Y);
+            //CircuitCanvas.Children.Add(component);
+
+            object data = e.Data.GetData(typeof(ResistorView));
+            if (data != null)
+            {
+                ResistorView component = data as ResistorView;
+                Point position = e.GetPosition(CircuitCanvas);
+                Canvas.SetLeft(component, position.X);
+                Canvas.SetTop(component, position.Y);
+                CircuitCanvas.Children.Add(component);
+            }
+        }
+
+        private void Canvas_DragLeave(object sender, DragEventArgs e)
+        {
+            object data = e.Data.GetData(typeof(ResistorView));
+            if (data != null)
+            {
+                ResistorView component = data as ResistorView;
+                CircuitCanvas.Children.Remove(component);
+            }
 
         }
 
@@ -80,6 +88,17 @@ namespace WPFHelloWorld
             lblCursorPosition.Text = $"({Convert.ToInt32(mousePosition.X)}-{Convert.ToInt32(mousePosition.Y)})";
         }
 
-
+        //private void Canvas_DragOver(object sender, DragEventArgs e)
+        //{
+        //    object data = e.Data.GetData(typeof(ResistorView));
+        //    if (data != null)
+        //    {
+        //        ResistorView component = data as ResistorView;
+        //        Point position = e.GetPosition(CircuitCanvas);
+        //        Canvas.SetLeft(component, position.X);
+        //        Canvas.SetTop(component, position.Y);
+        //        CircuitCanvas.Children.Add(component);
+        //    }
+        //}
     }
 }

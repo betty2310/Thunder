@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="MainWindow.xaml.cs~RF4e6bfd.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Resources\Icons\pacman.ico" />
   </ItemGroup>
 
