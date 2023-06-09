@@ -6,9 +6,13 @@
              xmlns:local="clr-namespace:CircuitSimulator.Views"
              xmlns:WPFHelloWorld="clr-namespace:WPFHelloWorld" x:Class="CircuitSimulator.Views.ResistorView"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Rectangle Height="50" Width="25" Fill="Red" 
-               MouseMove="Resistor_MouseMove"
+             d:DesignHeight="0" d:DesignWidth="0">
+    <Canvas x:Name="canvas" MouseMove="Resistor_MouseMove">
+        <Ellipse Canvas.Left="5" Canvas.Top="30" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="Ellipse_MouseDown"/>
+        <Rectangle Canvas.Left="0" Canvas.Top="40" Height="40" Width="20" Fill="Red" 
                Cursor="Hand">
-    </Rectangle>
+        </Rectangle>
+        <Ellipse Canvas.Left="5" Canvas.Top="80" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="Ellipse_MouseDown"/>
+    </Canvas>
+    
 </UserControl>

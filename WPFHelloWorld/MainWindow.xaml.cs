@@ -12,13 +12,14 @@ namespace WPFHelloWorld
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<UserControl> Components { get; set; }
+        public ObservableCollection<IComponent> Components { get; set; }
 
         // public static readonly DependencyProperty IsChildHitProperty = DependencyProperty.Register("IsChildHitTestVisible", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
 
         public MainWindow()
         {
             InitializeComponent();
+            App.CircuitCanvas = CircuitCanvas;
 
             // Create example resistors
             //Components = new ObservableCollection<Component>
@@ -28,7 +29,7 @@ namespace WPFHelloWorld
             //    new Ground { Name = "Ground"}
             //};
 
-            Components = new ObservableCollection<UserControl> {
+            Components = new ObservableCollection<IComponent> {
                 new ResistorView{ CP_name = "Resistor", CP_color="Red"},
                 new VoltageView{ CP_name = "Voltage", CP_color="Blue"},
                 new GroundView { CP_name = "Ground", CP_color="gray"}
