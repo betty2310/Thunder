@@ -42,8 +42,7 @@
 
             <Canvas x:Name="CircuitCanvas" Background="White" Grid.Column="1" 
                     AllowDrop="True" 
-                    Drop="Canvas_Drop" 
-                    DragLeave="Canvas_DragLeave"
+                    DragOver="Canvas_DragOver"
                     MouseMove="Canvas_MouseMove">
             </Canvas>
         </Grid>

@@ -1,4 +1,5 @@
 ﻿using CircuitSimulator.Models;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,8 @@ namespace CircuitSimulator.Views
 
         public string CP_name { get; set; }
         public string CP_color { get; set; }
+
+        public event EventHandler OnMoved;
 
         public Dictionary<Ellipse, IConductor> conductors = new Dictionary<Ellipse, IConductor>();
 
@@ -64,11 +67,23 @@ namespace CircuitSimulator.Views
             else
             {
                 App.CurrentConductor.EndComponent = this;
-                conductors.Add(ellipse, App.CurrentConductor);
                 App.CurrentConductor.X2 = position.X + 5;
                 App.CurrentConductor.Y2 = position.Y + 5;
-                App.CurrentConductor.Draw(App.CircuitCanvas);
+
+                App.CurrentConductor.Connect();
+                conductors.Add(ellipse, App.CurrentConductor);
+
                 App.CurrentConductor = null;
+
+
+            }
+        }
+
+        private void Resistor_DragLeave(object sender, DragEventArgs e)
+        {
+            if (e.OriginalSource == App.CircuitCanvas)
+            {
+                App.CircuitCanvas.Children.Remove(this);
             }
         }
     }

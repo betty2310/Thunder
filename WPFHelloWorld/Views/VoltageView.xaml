@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CircuitSimulator.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Canvas x:Name="canvas" MouseMove="Voltage_MouseMove">
+    <Canvas x:Name="canvas" MouseMove="Voltage_MouseMove" DragLeave="Voltage_DragLeave">
         <Ellipse Canvas.Left="5" Canvas.Top="30" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="Ellipse_MouseDown"/>
         <Rectangle Canvas.Left="0" Canvas.Top="40" Height="40" Width="20" Fill="Blue" 
                Cursor="Hand">

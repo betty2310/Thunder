@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using System.Windows.Shapes;
 using WPFHelloWorld;
 
@@ -25,5 +26,31 @@ namespace CircuitSimulator.Models
             };
             canvas.Children.Add(line);
         }
+
+        public void Connect()
+        {
+
+            StartComponent.OnMoved += Component_OnMoved;
+            EndComponent.OnMoved += Component_OnMoved;
+
+            Draw(App.CircuitCanvas);
+        }
+
+        public void Connect(IComponent start, IComponent end)
+        {
+            StartComponent = start;
+            EndComponent = end;
+
+            StartComponent.OnMoved += Component_OnMoved;
+            EndComponent.OnMoved += Component_OnMoved;
+
+            Draw(App.CircuitCanvas);
+        }
+
+        private void Component_OnMoved(object sender, EventArgs e)
+        {
+            Draw(App.CircuitCanvas);
+        }
     }
+
 }

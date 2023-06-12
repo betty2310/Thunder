@@ -21,14 +21,6 @@ namespace WPFHelloWorld
             InitializeComponent();
             App.CircuitCanvas = CircuitCanvas;
 
-            // Create example resistors
-            //Components = new ObservableCollection<Component>
-            //{
-            //    new Resistor { Name = "Resistor", Value = 100, Image = new BitmapImage(new Uri("resistor1.png", UriKind.Relative)) },
-            //    new Voltage { Name = "Voltage", Image = new BitmapImage(new Uri("voltage1.png", UriKind.Relative))},
-            //    new Ground { Name = "Ground"}
-            //};
-
             Components = new ObservableCollection<IComponent> {
                 new ResistorView{ CP_name = "Resistor", CP_color="Red"},
                 new VoltageView{ CP_name = "Voltage", CP_color="Blue"},
@@ -66,15 +58,43 @@ namespace WPFHelloWorld
 
 
 
-        private void Canvas_Drop(object sender, DragEventArgs e)
-        {
+        //private void Canvas_Drop(object sender, DragEventArgs e)
+        //{
+        //    UserControl component = new UserControl();
+        //    object data = e.Data.GetData(typeof(ResistorView));
+        //    if (data == null)
+        //    {
+        //        data = e.Data.GetData(typeof(VoltageView));
+        //        if (data == null)
+        //        {
+        //            data = e.Data.GetData(typeof(GroundView));
+        //            component = data as GroundView;
+        //        }
+        //        else
+        //        {
+        //            component = data as VoltageView;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        component = data as ResistorView;
+        //    }
 
-            //ResistorView component = ComponentList.SelectedItem as ResistorView;
-            //component = new ResistorView();
-            //Point position = e.GetPosition(CircuitCanvas);
-            //Canvas.SetLeft(component, position.X);
-            //Canvas.SetTop(component, position.Y);
-            //CircuitCanvas.Children.Add(component);
+        //    Point position = e.GetPosition(CircuitCanvas);
+        //    Canvas.SetLeft(component, position.X);
+        //    Canvas.SetTop(component, position.Y);
+        //    CircuitCanvas.Children.Add(component);
+
+        //}
+
+        private void Canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            System.Windows.Point mousePosition = e.GetPosition(CircuitCanvas);
+            lblCursorPosition.Text = $"Pos:({Convert.ToInt32(mousePosition.X)}-{Convert.ToInt32(mousePosition.Y)})";
+        }
+
+        private void Canvas_DragOver(object sender, DragEventArgs e)
+        {
             UserControl component = new UserControl();
             object data = e.Data.GetData(typeof(ResistorView));
             if (data == null)
@@ -98,52 +118,10 @@ namespace WPFHelloWorld
             Point position = e.GetPosition(CircuitCanvas);
             Canvas.SetLeft(component, position.X);
             Canvas.SetTop(component, position.Y);
-            CircuitCanvas.Children.Add(component);
-
-        }
-
-        private void Canvas_DragLeave(object sender, DragEventArgs e)
-        {
-            UserControl component = new UserControl();
-            object data = e.Data.GetData(typeof(ResistorView));
-            if (data == null)
+            if (!CircuitCanvas.Children.Contains(component))
             {
-                data = e.Data.GetData(typeof(VoltageView));
-                if (data == null)
-                {
-                    data = e.Data.GetData(typeof(GroundView));
-                    component = data as GroundView;
-                }
-                else
-                {
-                    component = data as VoltageView;
-                }
+                CircuitCanvas.Children.Add(component);
             }
-            else
-            {
-                component = data as ResistorView;
-            }
-            CircuitCanvas.Children.Remove(component);
-
         }
-
-        private void Canvas_MouseMove(object sender, MouseEventArgs e)
-        {
-            System.Windows.Point mousePosition = e.GetPosition(CircuitCanvas);
-            lblCursorPosition.Text = $"({Convert.ToInt32(mousePosition.X)}-{Convert.ToInt32(mousePosition.Y)})";
-        }
-
-        //private void Canvas_DragOver(object sender, DragEventArgs e)
-        //{
-        //    object data = e.Data.GetData(typeof(ResistorView));
-        //    if (data != null)
-        //    {
-        //        ResistorView component = data as ResistorView;
-        //        Point position = e.GetPosition(CircuitCanvas);
-        //        Canvas.SetLeft(component, position.X);
-        //        Canvas.SetTop(component, position.Y);
-        //        CircuitCanvas.Children.Add(component);
-        //    }
-        //}
     }
 }
