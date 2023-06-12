@@ -33,6 +33,7 @@ namespace CircuitSimulator.Views
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
+                OnMoved?.Invoke(this, new EventArgs());
             }
         }
 
@@ -48,8 +49,6 @@ namespace CircuitSimulator.Views
             var ellipse = sender as Ellipse;
 
             Point position = GetPositionOnCanvas(ellipse, App.CircuitCanvas);
-
-            System.Diagnostics.Debug.WriteLine($"{position.X} {position.Y}");
 
             if (conductors.ContainsKey(ellipse) && conductors[ellipse] != null)
             {

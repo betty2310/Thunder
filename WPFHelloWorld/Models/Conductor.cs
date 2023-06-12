@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using WPFHelloWorld;
@@ -13,9 +14,16 @@ namespace CircuitSimulator.Models
         public double Y1 { get; set; }
         public double X2 { get; set; }
         public double Y2 { get; set; }
+
+        public Line line;
+
         public void Draw(Canvas canvas)
         {
-            Line line = new Line
+            if (line != null)
+            {
+                canvas.Children.Remove(line);
+            }
+            line = new Line
             {
                 X1 = X1,
                 Y1 = Y1,
@@ -25,31 +33,51 @@ namespace CircuitSimulator.Models
                 StrokeThickness = 2
             };
             canvas.Children.Add(line);
+
         }
 
         public void Connect()
         {
-
             StartComponent.OnMoved += Component_OnMoved;
             EndComponent.OnMoved += Component_OnMoved;
-
             Draw(App.CircuitCanvas);
         }
 
-        public void Connect(IComponent start, IComponent end)
+        public void Disconnect()
         {
-            StartComponent = start;
-            EndComponent = end;
-
-            StartComponent.OnMoved += Component_OnMoved;
-            EndComponent.OnMoved += Component_OnMoved;
-
-            Draw(App.CircuitCanvas);
+            StartComponent.OnMoved -= Component_OnMoved;
+            EndComponent.OnMoved -= Component_OnMoved;
         }
 
         private void Component_OnMoved(object sender, EventArgs e)
         {
-            Draw(App.CircuitCanvas);
+            var component = sender as IComponent;
+
+            if (component != null)
+            {
+                Point point = GetPositionOnCanvas(component as FrameworkElement, App.CircuitCanvas);
+                if (component == StartComponent)
+                {
+                    X1 = point.X + 5;
+                    Y1 = point.Y + 35;
+                }
+                else
+                {
+                    X2 = point.X + 5;
+                    Y2 = point.Y + 35;
+                }
+
+                Draw(App.CircuitCanvas);
+
+            }
+
+        }
+
+        private Point GetPositionOnCanvas(FrameworkElement element, Canvas parentCanvas)
+        {
+            var transform = element.TransformToAncestor(parentCanvas);
+            Point position = transform.Transform(new Point(0, 0));
+            return position;
         }
     }
 

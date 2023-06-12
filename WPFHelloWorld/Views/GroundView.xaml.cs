@@ -33,6 +33,7 @@ namespace CircuitSimulator.Views
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
+                OnMoved?.Invoke(this, new EventArgs());
             }
         }
         private Point GetPositionOnCanvas(FrameworkElement element, Canvas parentCanvas)
@@ -67,7 +68,7 @@ namespace CircuitSimulator.Views
                 conductors.Add(ellipse, App.CurrentConductor);
                 App.CurrentConductor.X2 = position.X + 5;
                 App.CurrentConductor.Y2 = position.Y + 5;
-                App.CurrentConductor.Draw(App.CircuitCanvas);
+                App.CurrentConductor.Connect();
                 App.CurrentConductor = null;
             }
         }
