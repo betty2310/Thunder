@@ -1,1 +1,8 @@
-# WPFHelloWorld
+# Thunder
+
+```
+Circuit simulator ⚡
+```
+
+![](./.github/out.png)
+
