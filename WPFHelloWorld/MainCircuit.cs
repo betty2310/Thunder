@@ -1,22 +1,52 @@
 ﻿using CircuitSimulator.Models;
 using SpiceSharp;
 using SpiceSharp.Components;
+using SpiceSharp.Simulations;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using IComponent = WPFHelloWorld.IComponent;
 
 namespace CircuitSimulator
 {
     public class MainCircuit
     {
-        private Circuit _spiceCircuit;
+        private Circuit _spiceCircuit { get; }
 
         private List<Conductor> _conductors;
+
+        public StringBuilder SimulatorOutput { get; set; }
 
         public MainCircuit()
         {
             _spiceCircuit = new Circuit();
             _conductors = new List<Conductor>();
+            SimulatorOutput = new StringBuilder();
+        }
+
+        public void run()
+        {
+            try
+            {
+                // Create a DC simulation that sweeps V1 from -1V to 1V in steps of 100mV
+                var dc = new DC("DC 1", "V1", -1.0, 1.0, 0.5);
+
+                // Catch exported data
+                dc.ExportSimulationData += (sender, args) =>
+                {
+                    var input = args.GetVoltage("R1");
+                    var output = args.GetVoltage("R2");
+                    // System.Diagnostics.Debug.WriteLine($"input:{input}V - output:{output}V");
+                    SimulatorOutput.Append($"input: {input}V - output: {output}V\n");
+                };
+                dc.Run(_spiceCircuit);
+
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error occur!");
+                SimulatorOutput.Append("Error occur!");
+            }
         }
 
         public void AddConductor(Conductor conductor)
@@ -60,8 +90,6 @@ namespace CircuitSimulator
                 }
             }
         }
-
-
 
         private Component CreateSpiceComponent(IComponent component, IComponent connectedComponent)
         {

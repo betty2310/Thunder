@@ -119,6 +119,21 @@ namespace WPFHelloWorld
             RunButton.Content = new TextBlock() { Margin = new Thickness(3, 0, 0, 0), Text = "Stop simulator" };
             bar.Background = System.Windows.Media.Brushes.Red;
             // TODO: Start the simulation logic
+
+            try
+            {
+                App.Circuit.run();
+                string output = App.Circuit.SimulatorOutput.ToString();
+
+                Output outputWindow = new Output(output);
+                outputWindow.ShowDialog();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void StopSimulator()
@@ -129,6 +144,8 @@ namespace WPFHelloWorld
             RunButton.Content = new TextBlock() { Margin = new Thickness(3, 0, 0, 0), Text = "Run simulator" };
             bar.Background = System.Windows.Media.Brushes.Blue;
             // TODO: Stop the simulation logic
+
+            App.Circuit.SimulatorOutput.Clear();
         }
     }
 }
