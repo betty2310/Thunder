@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFHelloWorld"
         xmlns:views="clr-namespace:WPFHelloWorld.Views"
+        xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+
         mc:Ignorable="d"
         x:Name="root"
         Title="Circuit Simulator ⚡" Width="900" Height="600">
@@ -39,7 +41,8 @@
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="11*" />
+                <ColumnDefinition Width="639*"/>
             </Grid.ColumnDefinitions>
 
             <ListBox x:Name="ComponentList" Background="#FFF0EBEB" Width="250" Grid.Column="0" 
@@ -65,15 +68,17 @@
             <Canvas x:Name="CircuitCanvas" Background="White" Grid.Column="1" 
                     AllowDrop="True" 
                     DragOver="Canvas_DragOver"
-                    MouseMove="Canvas_MouseMove">
+                    MouseMove="Canvas_MouseMove" Grid.ColumnSpan="2">
             </Canvas>
         </Grid>
 
         <StatusBar x:Name="bar" Background="Blue" Height="25" Grid.Row="2">
             <StatusBarItem HorizontalAlignment="Right" Margin="0,0,20,0" >
+
                 <TextBlock Name="lblCursorPosition" />
 
             </StatusBarItem>
+            
 
         </StatusBar>
     </Grid>
