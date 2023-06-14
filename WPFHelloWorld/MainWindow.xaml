@@ -10,11 +10,33 @@
         Title="Circuit Simulator ⚡" Width="900" Height="600">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <ToolBarTray >
+            <ToolBar Band="1" BandIndex="1">
+                <Button Command="New" Content="New" />
+                <Button Command="Open" Content="Open" />
+                <Button Command="Save" Content="Save" />
+            </ToolBar>
+            <ToolBar Band="1" BandIndex="2">
+                <Button x:Name="RunButton" ToolTip="Click to run simulator of this circuit!" Click="RunSimulator" >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="16" Height="16" Source="/Resources/Icons/play-16.ico" />
+                        <TextBlock Margin="3,0,0,0">Run simulator</TextBlock>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+            <ToolBar Band="1">
+                <Button Command="Cut" Content="Cut" />
+                <Button Command="Copy" Content="Copy" />
+                <Button Command="Paste" Content="Paste" />
+            </ToolBar>
+        </ToolBarTray>
+
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
@@ -47,7 +69,7 @@
             </Canvas>
         </Grid>
 
-        <StatusBar Background="#1f88d9" Height="25" Grid.Row="1">
+        <StatusBar x:Name="bar" Background="Blue" Height="25" Grid.Row="2">
             <StatusBarItem HorizontalAlignment="Right" Margin="0,0,20,0" >
                 <TextBlock Name="lblCursorPosition" />
 

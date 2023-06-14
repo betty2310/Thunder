@@ -1,4 +1,5 @@
 ﻿using CircuitSimulator.Models;
+using SpiceSharp.Components;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -6,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using WPFHelloWorld;
+using IComponent = WPFHelloWorld.IComponent;
+using Point = System.Windows.Point;
 
 namespace CircuitSimulator.Views
 {
@@ -17,6 +20,11 @@ namespace CircuitSimulator.Views
         public string CP_name { get; set; }
         public string CP_color { get; set; }
 
+        public new string Name { get; set; }
+
+        public Component SpiceComponent { get; set; }
+
+        public ComponentType componentType { get; }
         public event EventHandler OnMoved;
 
         public Dictionary<Ellipse, IConductor> conductors = new Dictionary<Ellipse, IConductor>();
@@ -25,6 +33,8 @@ namespace CircuitSimulator.Views
         public GroundView()
         {
             InitializeComponent();
+            componentType = ComponentType.Ground;
+            Name = "0";
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using CircuitSimulator.Models;
+using SpiceSharp.Components;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -6,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using WPFHelloWorld;
+using IComponent = WPFHelloWorld.IComponent;
+using Point = System.Windows.Point;
 
 namespace CircuitSimulator.Views
 {
@@ -14,8 +17,16 @@ namespace CircuitSimulator.Views
     /// </summary>
     public partial class VoltageView : UserControl, IComponent
     {
+        public static int counter = 0;
         public string CP_name { get; set; }
         public string CP_color { get; set; }
+
+        public new string Name { get; set; }
+
+        public Component SpiceComponent { get; set; }
+
+
+        public ComponentType componentType { get; }
 
         public event EventHandler OnMoved;
 
@@ -25,6 +36,8 @@ namespace CircuitSimulator.Views
         public VoltageView()
         {
             InitializeComponent();
+            componentType = ComponentType.Voltage;
+            Name = $"V{counter++}";
         }
 
         private void Voltage_MouseMove(object sender, MouseEventArgs e)

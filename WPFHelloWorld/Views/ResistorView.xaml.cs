@@ -1,4 +1,5 @@
 ﻿using CircuitSimulator.Models;
+using SpiceSharp.Components;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -6,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using WPFHelloWorld;
+using IComponent = WPFHelloWorld.IComponent;
+using Point = System.Windows.Point;
 
 namespace CircuitSimulator.Views
 {
@@ -14,9 +17,17 @@ namespace CircuitSimulator.Views
     /// </summary>
     public partial class ResistorView : UserControl, IComponent
     {
+        public static int counter = 0;
 
         public string CP_name { get; set; }
         public string CP_color { get; set; }
+
+        public new string Name { get; set; }
+
+        public Component SpiceComponent { get; set; }
+
+
+        public ComponentType componentType { get; }
 
         public event EventHandler OnMoved;
 
@@ -25,6 +36,8 @@ namespace CircuitSimulator.Views
         public ResistorView()
         {
             InitializeComponent();
+            componentType = ComponentType.Resistor;
+            Name = $"R{counter++}";
         }
 
 
@@ -33,7 +46,7 @@ namespace CircuitSimulator.Views
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
-                OnMoved?.Invoke(this, new EventArgs());
+                OnMoved?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -44,7 +57,7 @@ namespace CircuitSimulator.Views
             return position;
         }
 
-        private void Ellipse_MouseDown(object sender, MouseButtonEventArgs e)
+        private void EllipsePos_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var ellipse = sender as Ellipse;
 
@@ -77,6 +90,42 @@ namespace CircuitSimulator.Views
 
             }
         }
+        private void EllipseNeg_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var ellipse = sender as Ellipse;
+
+            Point position = GetPositionOnCanvas(ellipse, App.CircuitCanvas);
+
+            if (conductors.ContainsKey(ellipse) && conductors[ellipse] != null)
+            {
+                return;
+            }
+            if (App.CurrentConductor == null)
+            {
+                App.CurrentConductor = new Conductor();
+                App.CurrentConductor.StartComponent = this;
+                App.CurrentConductor.X1 = position.X;
+                App.CurrentConductor.Y1 = position.Y;
+
+                conductors.Add(ellipse, App.CurrentConductor);
+            }
+            else
+            {
+                App.CurrentConductor.EndComponent = this;
+                App.CurrentConductor.X2 = position.X;
+                App.CurrentConductor.Y2 = position.Y;
+
+
+                App.CurrentConductor.Connect();
+                conductors.Add(ellipse, App.CurrentConductor);
+
+                App.CurrentConductor = null;
+
+
+            }
+        }
+
+
 
         private void Resistor_DragLeave(object sender, DragEventArgs e)
         {

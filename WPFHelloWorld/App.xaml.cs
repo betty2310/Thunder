@@ -1,4 +1,5 @@
-﻿using CircuitSimulator.Models;
+﻿using CircuitSimulator;
+using CircuitSimulator.Models;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,5 +12,6 @@ namespace WPFHelloWorld
     {
         public static Conductor CurrentConductor { get; set; }
         public static Canvas CircuitCanvas { get; set; }
+        public static MainCircuit Circuit { get; set; }
     }
 }

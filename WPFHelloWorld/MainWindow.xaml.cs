@@ -1,4 +1,5 @@
-﻿using CircuitSimulator.Views;
+﻿using CircuitSimulator;
+using CircuitSimulator.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -14,12 +15,14 @@ namespace WPFHelloWorld
     {
         public ObservableCollection<IComponent> Components { get; set; }
 
-        // public static readonly DependencyProperty IsChildHitProperty = DependencyProperty.Register("IsChildHitTestVisible", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
+        private bool isSimulatorRunning = false;
+
 
         public MainWindow()
         {
             InitializeComponent();
             App.CircuitCanvas = CircuitCanvas;
+            App.Circuit = new MainCircuit();
 
             Components = new ObservableCollection<IComponent> {
                 new ResistorView{ CP_name = "Resistor", CP_color="Red"},
@@ -57,36 +60,6 @@ namespace WPFHelloWorld
         }
 
 
-
-        //private void Canvas_Drop(object sender, DragEventArgs e)
-        //{
-        //    UserControl component = new UserControl();
-        //    object data = e.Data.GetData(typeof(ResistorView));
-        //    if (data == null)
-        //    {
-        //        data = e.Data.GetData(typeof(VoltageView));
-        //        if (data == null)
-        //        {
-        //            data = e.Data.GetData(typeof(GroundView));
-        //            component = data as GroundView;
-        //        }
-        //        else
-        //        {
-        //            component = data as VoltageView;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        component = data as ResistorView;
-        //    }
-
-        //    Point position = e.GetPosition(CircuitCanvas);
-        //    Canvas.SetLeft(component, position.X);
-        //    Canvas.SetTop(component, position.Y);
-        //    CircuitCanvas.Children.Add(component);
-
-        //}
-
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             System.Windows.Point mousePosition = e.GetPosition(CircuitCanvas);
@@ -122,6 +95,40 @@ namespace WPFHelloWorld
             {
                 CircuitCanvas.Children.Add(component);
             }
+        }
+
+        private void RunSimulator(object sender, RoutedEventArgs e)
+        {
+            if (isSimulatorRunning)
+            {
+                // Stop the simulator
+                StopSimulator();
+            }
+            else
+            {
+                // Start the simulator
+                StartSimulator();
+            }
+
+        }
+        private void StartSimulator()
+        {
+            // Update the UI and start the simulator
+            isSimulatorRunning = true;
+            RunButton.ToolTip = "Click to stop simulator";
+            RunButton.Content = new TextBlock() { Margin = new Thickness(3, 0, 0, 0), Text = "Stop simulator" };
+            bar.Background = System.Windows.Media.Brushes.Red;
+            // TODO: Start the simulation logic
+        }
+
+        private void StopSimulator()
+        {
+            // Update the UI and stop the simulator
+            isSimulatorRunning = false;
+            RunButton.ToolTip = "Click to run simulator";
+            RunButton.Content = new TextBlock() { Margin = new Thickness(3, 0, 0, 0), Text = "Run simulator" };
+            bar.Background = System.Windows.Media.Brushes.Blue;
+            // TODO: Stop the simulation logic
         }
     }
 }
