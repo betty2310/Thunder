@@ -134,5 +134,11 @@ namespace CircuitSimulator.Views
                 App.CircuitCanvas.Children.Remove(this);
             }
         }
+
+        private void Resistor_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+            System.Diagnostics.Debug.WriteLine("Right button mouse down!");
+        }
     }
 }

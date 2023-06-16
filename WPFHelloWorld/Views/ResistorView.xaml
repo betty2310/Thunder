@@ -7,12 +7,11 @@
              xmlns:WPFHelloWorld="clr-namespace:WPFHelloWorld" x:Class="CircuitSimulator.Views.ResistorView"
              mc:Ignorable="d" 
              d:DesignHeight="0" d:DesignWidth="0">
-    <Canvas x:Name="canvas" MouseMove="Resistor_MouseMove" DragLeave="Resistor_DragLeave">
-        <Ellipse Canvas.Left="5" Canvas.Top="30" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipsePos_MouseDown"/>
-        <Rectangle Canvas.Left="0" Canvas.Top="40" Height="40" Width="20" Fill="Red"
-               Cursor="Hand">
+    <Canvas x:Name="canvas" MouseMove="Resistor_MouseMove" DragLeave="Resistor_DragLeave" MouseRightButtonDown="Resistor_OnMouseRightButtonDown">
+        <Ellipse Canvas.Left="5" Canvas.Top="-10" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipsePos_MouseDown"/>
+        <Rectangle Height="40" Width="20" Fill="Red">
         </Rectangle>
-        <Ellipse Canvas.Left="5" Canvas.Top="80" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipseNeg_MouseDown"/>
+        <Ellipse Canvas.Left="5" Canvas.Top="40" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipseNeg_MouseDown"/>
     </Canvas>
     
 </UserControl>

@@ -15,7 +15,7 @@ namespace WPFHelloWorld
     {
         public ObservableCollection<IComponent> Components { get; set; }
 
-        private bool isSimulatorRunning = false;
+        private bool _isSimulatorRunning = false;
 
 
         public MainWindow()
@@ -99,7 +99,7 @@ namespace WPFHelloWorld
 
         private void RunSimulator(object sender, RoutedEventArgs e)
         {
-            if (isSimulatorRunning)
+            if (_isSimulatorRunning)
             {
                 // Stop the simulator
                 StopSimulator();
@@ -114,7 +114,7 @@ namespace WPFHelloWorld
         private void StartSimulator()
         {
             // Update the UI and start the simulator
-            isSimulatorRunning = true;
+            _isSimulatorRunning = true;
             RunButton.ToolTip = "Click to stop simulator";
             RunButton.Content = new TextBlock() { Margin = new Thickness(3, 0, 0, 0), Text = "Stop simulator" };
             bar.Background = System.Windows.Media.Brushes.Red;
@@ -139,7 +139,7 @@ namespace WPFHelloWorld
         private void StopSimulator()
         {
             // Update the UI and stop the simulator
-            isSimulatorRunning = false;
+            _isSimulatorRunning = false;
             RunButton.ToolTip = "Click to run simulator";
             RunButton.Content = new TextBlock() { Margin = new Thickness(3, 0, 0, 0), Text = "Run simulator" };
             bar.Background = System.Windows.Media.Brushes.Blue;
