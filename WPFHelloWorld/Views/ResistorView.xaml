@@ -7,7 +7,17 @@
              xmlns:WPFHelloWorld="clr-namespace:WPFHelloWorld" x:Class="CircuitSimulator.Views.ResistorView"
              mc:Ignorable="d" 
              d:DesignHeight="0" d:DesignWidth="0">
-    <Canvas x:Name="canvas" MouseMove="Resistor_MouseMove" DragLeave="Resistor_DragLeave" MouseRightButtonDown="Resistor_OnMouseRightButtonDown">
+    <Canvas x:Name="canvas" MouseMove="Resistor_MouseMove" DragLeave="Resistor_DragLeave" MouseLeftButtonDown="Resistor_OnMouseRightButtonDown">
+        <Canvas.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Edit" />
+                <MenuItem Header="Delete" />
+                <Separator />
+                <MenuItem Header="Flip" />
+                <MenuItem Header="Rotate" />
+            </ContextMenu>
+        </Canvas.ContextMenu>
+        
         <Ellipse Canvas.Left="5" Canvas.Top="-10" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipsePos_MouseDown"/>
         <Rectangle Height="40" Width="20" Fill="Red">
         </Rectangle>

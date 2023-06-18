@@ -27,7 +27,8 @@ namespace WPFHelloWorld
             Components = new ObservableCollection<IComponent> {
                 new ResistorView{ CP_name = "Resistor", CP_color="Red"},
                 new VoltageView{ CP_name = "Voltage", CP_color="Blue"},
-                new GroundView { CP_name = "Ground", CP_color="gray"}
+                new GroundView { CP_name = "Ground", CP_color="gray"},
+                new Test{CP_name = "Test", CP_color = "green"}
             };
 
             // Set the data context for the ListBox
@@ -42,17 +43,21 @@ namespace WPFHelloWorld
                 string name = listBox.SelectedItem.GetType().Name;
                 UserControl newComponent = new UserControl();
 
-                if (name == "ResistorView")
+                switch (name)
                 {
-                    newComponent = new ResistorView();
-                }
-                else if (name == "VoltageView")
-                {
-                    newComponent = new VoltageView();
-                }
-                else if (name == "GroundView")
-                {
-                    newComponent = new GroundView();
+                    case "ResistorView":
+                        newComponent = new ResistorView();
+                        break;
+                    case "VoltageView":
+                        newComponent = new VoltageView();
+                        break;
+                    case "GroundView":
+                        newComponent = new GroundView();
+                        break;
+                    case "Test":
+                        System.Diagnostics.Debug.WriteLine("Test component has been move!");
+                        newComponent = new Test();
+                        break;
                 }
 
                 DragDrop.DoDragDrop(component, newComponent, DragDropEffects.Move);

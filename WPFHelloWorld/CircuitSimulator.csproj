@@ -32,4 +32,8 @@
     <Resource Include="Resources\Icons\play-16.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\System\" />
+  </ItemGroup>
+
 </Project>

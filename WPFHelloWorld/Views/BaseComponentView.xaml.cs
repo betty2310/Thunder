@@ -13,9 +13,9 @@ using Point = System.Windows.Point;
 namespace CircuitSimulator.Views
 {
     /// <summary>
-    /// Interaction logic for ResistorView.xaml
+    /// Interaction logic for BaseComponentView.xaml
     /// </summary>
-    public partial class ResistorView : UserControl, IComponent
+    public partial class BaseComponentView : UserControl, IComponent
     {
         public static int counter = 0;
 
@@ -28,20 +28,16 @@ namespace CircuitSimulator.Views
 
 
         public ComponentType componentType { get; }
-
         public event EventHandler OnMoved;
-
         public Dictionary<Ellipse, IConductor> conductors = new Dictionary<Ellipse, IConductor>();
 
-        public ResistorView()
+
+        public BaseComponentView()
         {
             InitializeComponent();
-            componentType = ComponentType.Resistor;
-            Name = $"R{counter++}";
         }
 
-
-        private void Resistor_MouseMove(object sender, MouseEventArgs e)
+        private void Component_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
@@ -121,13 +117,12 @@ namespace CircuitSimulator.Views
 
                 App.CurrentConductor = null;
 
-
             }
         }
 
 
 
-        private void Resistor_DragLeave(object sender, DragEventArgs e)
+        private void Component_DragLeave(object sender, DragEventArgs e)
         {
             if (e.OriginalSource == App.CircuitCanvas)
             {
@@ -135,7 +130,7 @@ namespace CircuitSimulator.Views
             }
         }
 
-        private void Resistor_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void Component_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Right button mouse down!");
         }
