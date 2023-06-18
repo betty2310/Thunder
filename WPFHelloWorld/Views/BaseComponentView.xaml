@@ -19,10 +19,10 @@
             </ContextMenu>
         </Canvas.ContextMenu>
 
-        <Ellipse Canvas.Left="5" Canvas.Top="-10" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipsePos_MouseDown"/>
+        <Ellipse x:Name="Top" Canvas.Left="5" Canvas.Top="-10" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipsePos_MouseDown"/>
         <Rectangle x:Name="Rectangle" Height="40" Width="20" Fill="DimGray">
         </Rectangle>
-        <Ellipse Canvas.Left="5" Canvas.Top="40" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipseNeg_MouseDown"/>
+        <Ellipse x:Name="Bot" Canvas.Left="5" Canvas.Top="40" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipseNeg_MouseDown"/>
     </Canvas>
 
 </UserControl>

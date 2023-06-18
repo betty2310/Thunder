@@ -1,6 +1,7 @@
 ﻿using CircuitSimulator;
 using CircuitSimulator.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +14,7 @@ namespace WPFHelloWorld
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<IComponent> Components { get; set; }
+        public ObservableCollection<BaseComponentView> Components { get; set; }
 
         private bool _isSimulatorRunning = false;
 
@@ -24,11 +25,10 @@ namespace WPFHelloWorld
             App.CircuitCanvas = CircuitCanvas;
             App.Circuit = new MainCircuit();
 
-            Components = new ObservableCollection<IComponent> {
-                new ResistorView{ CP_name = "Resistor", CP_color="Red"},
-                new VoltageView{ CP_name = "Voltage", CP_color="Blue"},
-                new GroundView { CP_name = "Ground", CP_color="gray"},
-                new Test{CP_name = "Test", CP_color = "green"}
+            Components = new ObservableCollection<BaseComponentView> {
+                new ResistorView{CP_color = "red", CP_name = "Resistor"},
+                new VoltageView{CP_color = "blue", CP_name = "Voltage"},
+                new GroundView{CP_name = "Ground", CP_color = "Gray"}
             };
 
             // Set the data context for the ListBox
@@ -37,12 +37,11 @@ namespace WPFHelloWorld
         private void Component_MouseMove(object sender, MouseEventArgs e)
         {
             ListBox listBox = sender as ListBox;
-            UserControl component = listBox.SelectedItem as UserControl;
+            BaseComponentView component = listBox.SelectedItem as BaseComponentView;
             if (component != null && e.LeftButton == MouseButtonState.Pressed)
             {
                 string name = listBox.SelectedItem.GetType().Name;
-                UserControl newComponent = new UserControl();
-
+                BaseComponentView newComponent = new BaseComponentView();
                 switch (name)
                 {
                     case "ResistorView":
@@ -54,13 +53,8 @@ namespace WPFHelloWorld
                     case "GroundView":
                         newComponent = new GroundView();
                         break;
-                    case "Test":
-                        System.Diagnostics.Debug.WriteLine("Test component has been move!");
-                        newComponent = new Test();
-                        break;
                 }
-
-                DragDrop.DoDragDrop(component, newComponent, DragDropEffects.Move);
+                DragDrop.DoDragDrop(component, newComponent, DragDropEffects.Copy);
             }
         }
 
@@ -73,24 +67,22 @@ namespace WPFHelloWorld
 
         private void Canvas_DragOver(object sender, DragEventArgs e)
         {
-            UserControl component = new UserControl();
-            object data = e.Data.GetData(typeof(ResistorView));
-            if (data == null)
+            BaseComponentView component = null;
+
+            List<Type> componentTypeMap = new List<Type>
             {
-                data = e.Data.GetData(typeof(VoltageView));
-                if (data == null)
-                {
-                    data = e.Data.GetData(typeof(GroundView));
-                    component = data as GroundView;
-                }
-                else
-                {
-                    component = data as VoltageView;
-                }
-            }
-            else
+                typeof(ResistorView),
+                typeof(VoltageView),
+                typeof(GroundView)
+            };
+
+            foreach (var entry in componentTypeMap)
             {
-                component = data as ResistorView;
+                if (e.Data.GetData(entry) is BaseComponentView view)
+                {
+                    component = view;
+                    break;
+                }
             }
 
             Point position = e.GetPosition(CircuitCanvas);
@@ -98,6 +90,8 @@ namespace WPFHelloWorld
             Canvas.SetTop(component, position.Y);
             if (!CircuitCanvas.Children.Contains(component))
             {
+
+                System.Diagnostics.Debug.WriteLine(component.Name);
                 CircuitCanvas.Children.Add(component);
             }
         }

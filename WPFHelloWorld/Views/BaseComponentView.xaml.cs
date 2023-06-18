@@ -17,8 +17,6 @@ namespace CircuitSimulator.Views
     /// </summary>
     public partial class BaseComponentView : UserControl, IComponent
     {
-        public static int counter = 0;
-
         public string CP_name { get; set; }
         public string CP_color { get; set; }
 
@@ -27,7 +25,7 @@ namespace CircuitSimulator.Views
         public Component SpiceComponent { get; set; }
 
 
-        public ComponentType componentType { get; }
+        public ComponentType componentType { get; set; }
         public event EventHandler OnMoved;
         public Dictionary<Ellipse, IConductor> conductors = new Dictionary<Ellipse, IConductor>();
 
