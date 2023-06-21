@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace WPFHelloWorld.Views
+namespace Thunder.Views
 {
     /// <summary>
     /// Interaction logic for CanvasView.xaml

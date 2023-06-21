@@ -1,10 +1,10 @@
-﻿<Window xmlns:Views="clr-namespace:CircuitSimulator.Views"  x:Class="WPFHelloWorld.MainWindow"
+﻿<Window xmlns:Views="clr-namespace:CircuitSimulator.Views"  x:Class="Thunder.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFHelloWorld"
-        xmlns:views="clr-namespace:WPFHelloWorld.Views"
+        xmlns:local="clr-namespace:Thunder"
+        xmlns:views="clr-namespace:Thunder.Views"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
 
         mc:Ignorable="d"

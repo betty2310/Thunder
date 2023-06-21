@@ -6,8 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
-using WPFHelloWorld;
-using IComponent = WPFHelloWorld.IComponent;
+using Thunder;
+using IComponent = Thunder.IComponent;
 using Point = System.Windows.Point;
 
 namespace CircuitSimulator.Views

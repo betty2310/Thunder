@@ -2,7 +2,7 @@
 using SpiceSharp.Components;
 using System;
 
-namespace WPFHelloWorld
+namespace Thunder
 {
     public interface IComponent
     {

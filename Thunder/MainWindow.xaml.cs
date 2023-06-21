@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace WPFHelloWorld
+namespace Thunder
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -90,8 +90,6 @@ namespace WPFHelloWorld
             Canvas.SetTop(component, position.Y);
             if (!CircuitCanvas.Children.Contains(component))
             {
-
-                System.Diagnostics.Debug.WriteLine(component.Name);
                 CircuitCanvas.Children.Add(component);
             }
         }

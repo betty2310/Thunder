@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove=".github\**" />
+    <EmbeddedResource Remove=".github\**" />
+    <None Remove=".github\**" />
+    <Page Remove=".github\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="MainCircuit.cs~RFfa57e.TMP" />
     <None Remove="MainWindow.xaml.cs~RF4e6bfd.TMP" />
     <None Remove="Resources\Icons\play-16.ico" />
@@ -23,10 +30,6 @@
     <PackageReference Include="Material.Icons.WPF" Version="2.0.0" />
     <PackageReference Include="SpiceSharp" Version="3.1.5" />
     <PackageReference Include="SpiceSharp-Parser" Version="3.1.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include=".github\im.png" />
   </ItemGroup>
 
   <ItemGroup>

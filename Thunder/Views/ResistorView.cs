@@ -3,7 +3,7 @@ using SpiceSharp.Components;
 using System;
 using System.Windows;
 using System.Windows.Input;
-using WPFHelloWorld;
+using Thunder;
 
 namespace CircuitSimulator.Views
 {

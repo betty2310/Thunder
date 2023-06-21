@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using WPFHelloWorld;
+using Thunder;
 
 namespace CircuitSimulator.Models
 {

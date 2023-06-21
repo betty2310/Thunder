@@ -3,7 +3,7 @@ using CircuitSimulator.Models;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace WPFHelloWorld
+namespace Thunder
 {
     /// <summary>
     /// Interaction logic for App.xaml

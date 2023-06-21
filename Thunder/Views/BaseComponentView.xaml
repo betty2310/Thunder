@@ -4,7 +4,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:CircuitSimulator.Views"
-    xmlns:WPFHelloWorld="clr-namespace:WPFHelloWorld" 
+    xmlns:Thunder="clr-namespace:Thunder" 
     x:Class="CircuitSimulator.Views.BaseComponentView"
     mc:Ignorable="d" 
     d:DesignHeight="1000" d:DesignWidth="1000">
