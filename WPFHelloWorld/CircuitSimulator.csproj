@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="MainCircuit.cs~RFfa57e.TMP" />
     <None Remove="MainWindow.xaml.cs~RF4e6bfd.TMP" />
     <None Remove="Resources\Icons\play-16.ico" />
   </ItemGroup>
@@ -30,10 +31,6 @@
 
   <ItemGroup>
     <Resource Include="Resources\Icons\play-16.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\System\" />
   </ItemGroup>
 
 </Project>

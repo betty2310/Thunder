@@ -130,7 +130,27 @@ namespace CircuitSimulator.Views
 
         private void Component_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Right button mouse down!");
+
         }
+
+
+        private void Value_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Set focus to the TextBox and select all text
+            Value.Focus();
+            Value.SelectAll();
+        }
+
+        public virtual void Value_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public virtual void Value_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+
     }
 }
