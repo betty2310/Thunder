@@ -4,18 +4,37 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:CircuitSimulator.Views"
-    xmlns:Thunder="clr-namespace:Thunder" 
+    xmlns:Thunder="clr-namespace:Thunder"
+    xmlns:Icons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
     x:Class="CircuitSimulator.Views.BaseComponentView"
     mc:Ignorable="d" 
     d:DesignHeight="1000" d:DesignWidth="1000">
     <Canvas x:Name="Canvas"  MouseRightButtonDown="Component_OnMouseRightButtonDown">
         <Canvas.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Edit" />
-                <MenuItem Header="Delete" />
+                <MenuItem Header="Edit" >
+                    <MenuItem.Icon>
+                        <Icons:MaterialIcon Kind="Pencil" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="Delete" >
+                    <MenuItem.Icon>
+                        <Icons:MaterialIcon Kind="CloseThick" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
                 <Separator />
-                <MenuItem Header="Flip" />
-                <MenuItem Header="Rotate" />
+                <!--<MenuItem Header="Flip" >
+                    <MenuItem.Icon>
+                        <Icons:MaterialIcon Kind="FlipVertical" />
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <MenuItem Header="Rotate" >
+                    <MenuItem.Icon>
+                        <Icons:MaterialIcon Kind="RotateLeft" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </ContextMenu>
         </Canvas.ContextMenu>
 

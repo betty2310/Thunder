@@ -35,6 +35,16 @@ namespace CircuitSimulator.Views
             InitializeComponent();
         }
 
+        protected void MoveTopEllipse(double deltaX, double deltaY)
+        {
+            double currentX = Canvas.GetLeft(Top);
+            double currentY = Canvas.GetTop(Top);
+
+            Canvas.SetLeft(Top, currentX + deltaX);
+            Canvas.SetTop(Top, currentY + deltaY);
+        }
+
+
         private void Component_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -150,6 +160,7 @@ namespace CircuitSimulator.Views
         {
 
         }
+
 
 
     }

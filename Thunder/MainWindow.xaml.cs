@@ -1,11 +1,13 @@
 ﻿using CircuitSimulator;
 using CircuitSimulator.Views;
+using Material.Icons;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Thunder
 {
@@ -62,7 +64,7 @@ namespace Thunder
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             System.Windows.Point mousePosition = e.GetPosition(CircuitCanvas);
-            lblCursorPosition.Text = $"Pos:({Convert.ToInt32(mousePosition.X)}-{Convert.ToInt32(mousePosition.Y)})";
+            lblCursorPosition.Text = $"{Convert.ToInt32(mousePosition.X)}-{Convert.ToInt32(mousePosition.Y)}";
         }
 
         private void Canvas_DragOver(object sender, DragEventArgs e)
@@ -113,8 +115,11 @@ namespace Thunder
             // Update the UI and start the simulator
             _isSimulatorRunning = true;
             RunButton.ToolTip = "Click to stop simulator";
-            RunButton.Content = new TextBlock() { Margin = new Thickness(3, 0, 0, 0), Text = "Stop simulator" };
-            bar.Background = System.Windows.Media.Brushes.Red;
+            textRunButton.Text = "Stop simulator";
+            bar.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ca5100"));
+            IconRunButton.Kind = MaterialIconKind.CogPause;
+            IconRunButton.Foreground = Brushes.DarkRed;
+
             // TODO: Start the simulation logic
 
             try
@@ -124,6 +129,10 @@ namespace Thunder
 
                 Output outputWindow = new Output(output);
                 outputWindow.ShowDialog();
+                if (outputWindow.DialogResult == false)
+                {
+                    StopSimulator();
+                }
 
             }
             catch (Exception ex)
@@ -138,8 +147,10 @@ namespace Thunder
             // Update the UI and stop the simulator
             _isSimulatorRunning = false;
             RunButton.ToolTip = "Click to run simulator";
-            RunButton.Content = new TextBlock() { Margin = new Thickness(3, 0, 0, 0), Text = "Run simulator" };
-            bar.Background = System.Windows.Media.Brushes.Blue;
+            textRunButton.Text = "Run simulator";
+            bar.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#006cbe"));
+            IconRunButton.Kind = MaterialIconKind.CogPlay;
+            IconRunButton.Foreground = Brushes.Green;
             // TODO: Stop the simulation logic
 
             App.Circuit.SimulatorOutput.Clear();

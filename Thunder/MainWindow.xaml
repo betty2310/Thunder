@@ -26,8 +26,9 @@
             <ToolBar Band="1" BandIndex="2">
                 <Button x:Name="RunButton" ToolTip="Click to run simulator of this circuit!" Click="RunSimulator" >
                     <StackPanel Orientation="Horizontal">
-                        <Image Width="16" Height="16" Source="/Resources/Icons/play-16.ico" />
-                        <TextBlock Margin="3,0,0,0">Run simulator</TextBlock>
+                        <materialIcons:MaterialIcon x:Name="IconRunButton" Kind="CogPlay" Foreground="Green" Width="16" />
+                       
+                        <TextBlock x:Name="textRunButton" Margin="3,0,0,0">Run simulator</TextBlock>
                     </StackPanel>
                 </Button>
             </ToolBar>
@@ -72,10 +73,10 @@
             </Canvas>
         </Grid>
 
-        <StatusBar x:Name="bar" Background="Blue" Height="25" Grid.Row="2">
+        <StatusBar x:Name="bar" Background="#006cbe" Height="25" Grid.Row="2">
             <StatusBarItem HorizontalAlignment="Right" Margin="0,0,20,0" >
 
-                <TextBlock Name="lblCursorPosition" />
+                <TextBlock Name="lblCursorPosition" Foreground="White" />
 
             </StatusBarItem>
             
