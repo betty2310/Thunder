@@ -9,39 +9,38 @@ namespace CircuitSimulator.Views
 {
     public class ResistorView : BaseComponentView
     {
-        public static int counter = 0;
+        private static int _counter = 0;
 
         public ResistorView()
         {
             componentType = ComponentType.Resistor;
             Rectangle.Fill = System.Windows.Media.Brushes.Red;
-            Name = $"R{counter++}";
+            Name = $"R{_counter++}";
             SpiceComponent = new Resistor("default", "", "", 1.0e4);
-            Resistor? r = SpiceComponent as Resistor;
-            SpiceSharp.Components.Resistors.Parameters p = r.Parameters;
-            Value.Text = p.Resistance.Value.ToString();
+            var r = SpiceComponent as Resistor;
+            var p = r?.Parameters;
+            Value.Text = p?.Resistance.Value.ToString();
             Node.Text = Name;
 
         }
 
         public override void Value_LostFocus(object sender, RoutedEventArgs e)
         {
-            updateResistance();
+            UpdateResistance();
         }
 
         public override void Value_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                updateResistance();
-                Value.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-            }
+            if (e.Key != Key.Enter) return;
+            UpdateResistance();
+            Value.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
 
-        private void updateResistance()
+        private void UpdateResistance()
         {
-            foreach (Component component in App.Circuit._spiceCircuit)
+            foreach (var entity in App.Circuit._spiceCircuit)
             {
+                var component = (Component)entity;
                 if (component.Name == Name && component is Resistor resistor)
                 {
                     resistor.Parameters.Resistance = Convert.ToDouble(Value.Text);
