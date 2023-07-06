@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Thunder;
 using IComponent = Thunder.IComponent;
 
 namespace CircuitSimulator
@@ -14,7 +15,7 @@ namespace CircuitSimulator
     public class MainCircuit
     {
         public Circuit _spiceCircuit { get; }
-
+            
         private List<Conductor> _conductors;
 
         public StringBuilder SimulatorOutput { get; set; }
@@ -32,18 +33,27 @@ namespace CircuitSimulator
             {
                 SimulatorOutput.Append($"{"input (V)",-10}| {"output (V)",10}\n");
                 // Create a DC simulation that sweeps V1 from -1V to 1V in steps of 100mV
-                var dc = new DC("DC 1", "V1", -1.0, 1.0, 0.2);
+                var dc = new DC("DC 1", "V1", 1.0, 1.0, 1);
+                
+                var source = App.voltageAnalysis.Count > 0 ? App.voltageAnalysis[0].sourceComponent : "R1";
+                System.Diagnostics.Debug.WriteLine(source);
+                var inputExport = new RealVoltageExport(dc, "R1");
+                var outputExport = new RealVoltageExport(dc, source);
+                var currentExport = new RealPropertyExport(dc, "V1", "i");
 
                 // Catch exported data
                 dc.ExportSimulationData += (sender, args) =>
                 {
-                    var input = args.GetVoltage("R1");
-                    var output = args.GetVoltage("R2");
+                    var input = inputExport.Value;
+                    var output = outputExport.Value;
+                    var current = currentExport.Value;
                     input = Math.Round(input, 2);
                     output = Math.Round(output, 2);
                     SimulatorOutput.Append($"{input,-13}|{output,10}\n");
                 };
                 dc.Run(_spiceCircuit);
+
+                
 
             }
             catch (Exception ex)

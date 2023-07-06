@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using Thunder;
 using IComponent = Thunder.IComponent;
@@ -45,13 +46,14 @@ namespace CircuitSimulator.Views
         }
 
 
-        private void Component_MouseMove(object sender, MouseEventArgs e)
+        public virtual void Component_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
                 OnMoved?.Invoke(this, EventArgs.Empty);
             }
+
         }
 
         private Point GetPositionOnCanvas(FrameworkElement element, Canvas parentCanvas)

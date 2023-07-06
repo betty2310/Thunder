@@ -36,6 +36,7 @@ namespace CircuitSimulator.Models
                 StrokeThickness = 2
             };
             canvas.Children.Add(line);
+            App.Conductors.Add(this);
 
         }
 

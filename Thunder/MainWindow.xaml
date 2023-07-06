@@ -74,11 +74,15 @@
         </Grid>
 
         <StatusBar x:Name="bar" Background="#006cbe" Height="25" Grid.Row="2">
-            <StatusBarItem HorizontalAlignment="Right" Margin="0,0,20,0" >
+            <StatusBarItem HorizontalAlignment="Left" Margin="0,0,20,0" >
+                <TextBlock Name="nAnalysis" Foreground="White" />
 
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right" Margin="0,0,20,0" >
                 <TextBlock Name="lblCursorPosition" Foreground="White" />
 
             </StatusBarItem>
+            
             
 
         </StatusBar>

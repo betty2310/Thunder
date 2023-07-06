@@ -28,6 +28,7 @@ namespace Thunder
             App.Circuit = new MainCircuit();
 
             Components = new ObservableCollection<BaseComponentView> {
+                new VoltageAnalysisView{CP_color = "green", CP_name = "Voltage Analysis"},
                 new ResistorView{CP_color = "red", CP_name = "Resistor"},
                 new VoltageView{CP_color = "blue", CP_name = "Voltage"},
                 new GroundView{CP_name = "Ground", CP_color = "Gray"}
@@ -38,6 +39,7 @@ namespace Thunder
         }
         private void Component_MouseMove(object sender, MouseEventArgs e)
         {
+            nAnalysis.Text = App.voltageAnalysis.Count.ToString();
             ListBox listBox = sender as ListBox;
             BaseComponentView component = listBox.SelectedItem as BaseComponentView;
             if (component != null && e.LeftButton == MouseButtonState.Pressed)
@@ -54,6 +56,9 @@ namespace Thunder
                         break;
                     case "GroundView":
                         newComponent = new GroundView();
+                        break;
+                    case "VoltageAnalysisView":
+                            newComponent = new VoltageAnalysisView();
                         break;
                 }
                 DragDrop.DoDragDrop(component, newComponent, DragDropEffects.Copy);
@@ -75,7 +80,8 @@ namespace Thunder
             {
                 typeof(ResistorView),
                 typeof(VoltageView),
-                typeof(GroundView)
+                typeof(GroundView),
+                typeof(VoltageAnalysisView)
             };
 
             foreach (var entry in componentTypeMap)
