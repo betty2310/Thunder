@@ -2,6 +2,8 @@
 using SpiceSharp.Components;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -53,7 +55,6 @@ namespace CircuitSimulator.Views
                 DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
                 OnMoved?.Invoke(this, EventArgs.Empty);
             }
-
         }
 
         private Point GetPositionOnCanvas(FrameworkElement element, Canvas parentCanvas)
@@ -73,6 +74,7 @@ namespace CircuitSimulator.Views
             {
                 return;
             }
+
             if (App.CurrentConductor == null)
             {
                 App.CurrentConductor = new Conductor();
@@ -92,10 +94,9 @@ namespace CircuitSimulator.Views
                 conductors.Add(ellipse, App.CurrentConductor);
 
                 App.CurrentConductor = null;
-
-
             }
         }
+
         private void EllipseNeg_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var ellipse = sender as Ellipse;
@@ -106,6 +107,7 @@ namespace CircuitSimulator.Views
             {
                 return;
             }
+
             if (App.CurrentConductor == null)
             {
                 App.CurrentConductor = new Conductor();
@@ -126,10 +128,8 @@ namespace CircuitSimulator.Views
                 conductors.Add(ellipse, App.CurrentConductor);
 
                 App.CurrentConductor = null;
-
             }
         }
-
 
 
         private void Component_DragLeave(object sender, DragEventArgs e)
@@ -142,7 +142,6 @@ namespace CircuitSimulator.Views
 
         private void Component_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-
         }
 
 
@@ -155,15 +154,44 @@ namespace CircuitSimulator.Views
 
         public virtual void Value_LostFocus(object sender, RoutedEventArgs e)
         {
-
         }
 
         public virtual void Value_KeyDown(object sender, KeyEventArgs e)
         {
-
         }
 
 
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            App.CircuitCanvas.Children.Remove(this);
 
+            if (SpiceComponent != null)
+            {
+                App.Circuit._spiceCircuit.Remove(SpiceComponent);
+            }
+
+            for (var index = 0; index < App.Conductors.Count; index++)
+            {
+                var conductor = App.Conductors[index];
+                if (conductor.StartComponent != this && conductor.EndComponent != this) continue;
+                if (conductor.StartComponent == this)
+                {
+                    var conductorEndComponent = (BaseComponentView)conductor.EndComponent;
+                    Debug.WriteLine(conductorEndComponent.conductors.Count);
+                    conductorEndComponent.conductors.Remove(conductorEndComponent.conductors.First().Key);
+                }
+
+                App.CircuitCanvas.Children.Remove(conductor.line);
+                App.Conductors.Remove(conductor);
+                index--;
+            }
+        }
+        private void MenuItem_OnClick_Rotate(object sender, RoutedEventArgs e)
+        {
+            Canvas.RenderTransformOrigin = new Point(0.5, 0.5); 
+
+            var rotateTransform = new RotateTransform(-90); 
+            Canvas.RenderTransform = rotateTransform;
+        }
     }
 }

@@ -1,12 +1,41 @@
-﻿<Window x:Class="CircuitSimulator.Output"
+﻿<Window xmlns:Views="clr-namespace:CircuitSimulator.Views"  x:Class="CircuitSimulator.Output"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CircuitSimulator"
-        mc:Ignorable="d"
-        Title="Simulator Output" Height="140" Width="200">
+        xmlns:vm="clr-namespace:CircuitSimulator.ViewModels"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+         mc:Ignorable="d"
+        Title="Simulator Output" Height="auto" Width="auto">
+    
+    <Window.DataContext>
+        <vm:OutputChart/>
+    </Window.DataContext>
+
     <StackPanel>
-        <TextBlock x:Name="TextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" RenderTransformOrigin="0.03,-1.094" Margin="10,10,10,10" MinWidth="100" MinHeight="95"/>
+        <lvc:CartesianChart
+                        Series="{Binding Series}">
+        </lvc:CartesianChart>
+        <TabControl Height="auto" Width="auto" BorderThickness="0,0,0,0">
+            <TabItem Header="Table">
+                <StackPanel>
+                    <DataGrid x:Name="DataTable" AutoGenerateColumns="False" BorderThickness="0,0,0,0">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="Input" Width="Auto" Binding="{Binding InputValue}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Output" Width="Auto" Binding="{Binding OutputValue}" IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="graph">
+                <StackPanel>
+                    <lvc:CartesianChart
+                        Series="{Binding Series}">
+                    </lvc:CartesianChart>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
     </StackPanel>
+    
 </Window>

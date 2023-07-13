@@ -1,11 +1,15 @@
 ﻿using CircuitSimulator.Models;
 using CircuitSimulator.Views;
 using SpiceSharp;
+using SpiceSharp.Algebra;
 using SpiceSharp.Components;
+using SpiceSharp.Components.BehavioralSources;
 using SpiceSharp.Simulations;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using Thunder;
 using IComponent = Thunder.IComponent;
@@ -15,51 +19,100 @@ namespace CircuitSimulator
     public class MainCircuit
     {
         public Circuit _spiceCircuit { get; }
-            
+
         private List<Conductor> _conductors;
 
         public StringBuilder SimulatorOutput { get; set; }
+        public ObservableCollection<Data> simulationDataCollection { get; set; }
 
         public MainCircuit()
         {
             _spiceCircuit = new Circuit();
             _conductors = new List<Conductor>();
             SimulatorOutput = new StringBuilder();
+            simulationDataCollection = new ObservableCollection<Data>();
         }
 
         public void run()
         {
-            try
+            bool fl = false;
+            foreach (var component in _spiceCircuit)
             {
-                SimulatorOutput.Append($"{"input (V)",-10}| {"output (V)",10}\n");
-                // Create a DC simulation that sweeps V1 from -1V to 1V in steps of 100mV
-                var dc = new DC("DC 1", "V1", 1.0, 1.0, 1);
-                
-                var source = App.voltageAnalysis.Count > 0 ? App.voltageAnalysis[0].sourceComponent : "R1";
-                System.Diagnostics.Debug.WriteLine(source);
-                var inputExport = new RealVoltageExport(dc, "R1");
-                var outputExport = new RealVoltageExport(dc, source);
-                var currentExport = new RealPropertyExport(dc, "V1", "i");
-
-                // Catch exported data
-                dc.ExportSimulationData += (sender, args) =>
+                if (component.Name.Contains("AC"))
                 {
-                    var input = inputExport.Value;
-                    var output = outputExport.Value;
-                    var current = currentExport.Value;
-                    input = Math.Round(input, 2);
-                    output = Math.Round(output, 2);
-                    SimulatorOutput.Append($"{input,-13}|{output,10}\n");
-                };
-                dc.Run(_spiceCircuit);
-
-                
-
+                    component.SetParameter("acmag", 1.0);
+                    fl = true;
+                    break;
+                }
             }
-            catch (Exception ex)
+            System.Diagnostics.Debug.WriteLine(fl);
+            if (fl)
             {
-                System.Diagnostics.Debug.WriteLine("Error occur!");
-                SimulatorOutput.Append("Error occur!");
+
+                try
+                {
+                    simulationDataCollection = new ObservableCollection<Data>();
+
+                    var source = App.voltageAnalysis.Count > 0 ? App.voltageAnalysis[0].sourceComponent : "R1";
+                    if(source != "R1")
+                        System.Diagnostics.Debug.WriteLine(source);
+
+                    var ac = new AC("AC", new DecadeSweep(1.0e-2, 1.0e3, 5));
+
+                    var exportVoltage = new ComplexVoltageExport(ac, source);
+
+                    ac.ExportSimulationData += (sender, args) =>
+                    {
+                        var output = exportVoltage.Value;
+                        var magnitude = Complex.Abs(output);
+                        var freq = args.Frequency;
+
+                        var decibels = 10.0 * Math.Log10(output.Real * output.Real + output.Imaginary * output.Imaginary);
+                        System.Diagnostics.Debug.WriteLine($"{freq}Hz: {decibels}dB:       {magnitude}   {output.Real}+{output.Imaginary}i");
+                        simulationDataCollection.Add(new Data { InputValue = freq + " Hz", OutputValue = decibels + " dB" });
+
+                    };
+                    ac.Run(_spiceCircuit);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Error occur!");
+                    SimulatorOutput.Append("Error occur!");
+                }
+            }
+            else
+            {
+                try
+                {
+                    simulationDataCollection = new ObservableCollection<Data>();
+
+                    // Create a DC simulation that sweeps V1 from -1V to 1V in steps of 100mV
+                    var dc = new DC("DC 1", "V1", 1.0, 1.0, 1);
+
+                    var source = App.voltageAnalysis.Count > 0 ? App.voltageAnalysis[0].sourceComponent : "R1";
+                    System.Diagnostics.Debug.WriteLine(source);
+                    var inputExport = new RealVoltageExport(dc, "R1");
+                    var outputExport = new RealVoltageExport(dc, source);
+
+                    // Catch exported data
+                    dc.ExportSimulationData += (sender, args) =>
+                    {
+                        var input = inputExport.Value;
+                        var output = outputExport.Value;
+                        input = Math.Round(input, 2);
+                        output = Math.Round(output, 2);
+                        simulationDataCollection.Add(new Data { InputValue = input + " V", OutputValue = output + " V" });
+                    };
+                    dc.Run(_spiceCircuit);
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Error occur!");
+                    SimulatorOutput.Append("Error occur!");
+                }
             }
         }
 
@@ -118,6 +171,10 @@ namespace CircuitSimulator
                     {
                         _spiceCircuit.Add(new Resistor(last.Name, last.Nodes[0], "0", res.Parameters.Resistance));
                     }
+                    else if (last is Capacitor cap)
+                    {
+                        _spiceCircuit.Add(new Capacitor(cap.Name, cap.Nodes[0], "0", cap.Parameters.Capacitance));
+                    }
                     else if (last is VoltageSource voltage)
                     {
                         _spiceCircuit.Add(new VoltageSource(last.Name, pre.Nodes[0], "0", voltage.Parameters.DcValue));
@@ -142,6 +199,10 @@ namespace CircuitSimulator
                         {
                             _spiceCircuit.Add(new VoltageSource(pre.Name, last.Nodes[0], last.Nodes[0], vol.Parameters.DcValue));
                         }
+                        else if (pre is Capacitor cap)
+                        {
+                            _spiceCircuit.Add(new Capacitor(cap.Name, cap.Nodes[0], cap.Nodes[0], cap.Parameters.Capacitance));
+                        }
                     }
                 }
                 else
@@ -165,6 +226,8 @@ namespace CircuitSimulator
                     return new VoltageSource(component.Name, component.Name, connectedComponent.Name, 1.0);
                 case ComponentType.Ground:
                     return null;
+                case ComponentType.Capacitor:
+                    return new Capacitor(component.Name, component.Name, connectedComponent.Name, 1.0e-6);
                 default:
                     throw new Exception($"Unknown component type: {component.componentType}");
             }
@@ -192,6 +255,15 @@ namespace CircuitSimulator
                     return true;
                 }
             }
+            else if (cp is Capacitor)
+            {
+                string name = (cp as Capacitor).Name;
+                if (name == "default")
+                {
+                    return true;
+                }
+            }
+
 
             return false;
         }

@@ -30,7 +30,9 @@ namespace Thunder
             Components = new ObservableCollection<BaseComponentView> {
                 new VoltageAnalysisView{CP_color = "green", CP_name = "Voltage Analysis"},
                 new ResistorView{CP_color = "red", CP_name = "Resistor"},
-                new VoltageView{CP_color = "blue", CP_name = "Voltage"},
+                new VoltageView{CP_color = "blue", CP_name = "DC Power"},
+                new ACVoltageView{CP_color = "blue", CP_name = "AC Power"},
+                new CapacitorView{CP_color = "yellow", CP_name = "Capacitor"},
                 new GroundView{CP_name = "Ground", CP_color = "Gray"}
             };
 
@@ -54,11 +56,18 @@ namespace Thunder
                     case "VoltageView":
                         newComponent = new VoltageView();
                         break;
+                    case "ACVoltageView":
+                        newComponent = new ACVoltageView();
+                        break;
                     case "GroundView":
                         newComponent = new GroundView();
                         break;
+                    case "CapacitorView":
+                        newComponent = new CapacitorView();
+                        break;
+
                     case "VoltageAnalysisView":
-                            newComponent = new VoltageAnalysisView();
+                        newComponent = new VoltageAnalysisView();
                         break;
                 }
                 DragDrop.DoDragDrop(component, newComponent, DragDropEffects.Copy);
@@ -81,7 +90,9 @@ namespace Thunder
                 typeof(ResistorView),
                 typeof(VoltageView),
                 typeof(GroundView),
-                typeof(VoltageAnalysisView)
+                typeof(CapacitorView),
+                typeof(VoltageAnalysisView),
+                typeof(ACVoltageView)
             };
 
             foreach (var entry in componentTypeMap)
@@ -132,8 +143,15 @@ namespace Thunder
             {
                 App.Circuit.run();
                 string output = App.Circuit.SimulatorOutput.ToString();
+                if(output == "Error occur!")
+                {
+                    MessageBox.Show("Error in circuit", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    StopSimulator();
+                    return;
+                }
+                ObservableCollection<Data> dataCollection = App.Circuit.simulationDataCollection;
 
-                Output outputWindow = new Output(output);
+                Output outputWindow = new Output(dataCollection);
                 outputWindow.ShowDialog();
                 if (outputWindow.DialogResult == false)
                 {

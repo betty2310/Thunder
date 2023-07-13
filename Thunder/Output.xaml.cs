@@ -1,5 +1,10 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
+using CircuitSimulator.ViewModels;
+using CircuitSimulator.Views;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 
 namespace CircuitSimulator
 {
@@ -8,14 +13,14 @@ namespace CircuitSimulator
     /// </summary>
     public partial class Output : Window
     {
-        public Output()
+       
+        public Output(ObservableCollection<Data> simulationDataCollection)
         {
+            OutputChart outputChart = new OutputChart();
             InitializeComponent();
+            
+            DataTable.ItemsSource = simulationDataCollection;
         }
-        public Output(string output)
-        {
-            InitializeComponent();
-            TextBlock.Text = output;
-        }
+        
     }
 }
