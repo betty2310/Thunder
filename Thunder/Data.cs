@@ -8,7 +8,7 @@ namespace CircuitSimulator
 {
     public class Data
     {
-        public string InputValue { get; set; }
-        public string OutputValue { get; set; }
+        public double InputValue { get; set; }
+        public double OutputValue { get; set; }
     }
 }

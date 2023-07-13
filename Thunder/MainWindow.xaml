@@ -32,6 +32,7 @@
                     </StackPanel>
                 </Button>
             </ToolBar>
+            
             <ToolBar Band="1">
                 <Button Command="Cut" Content="Cut" />
                 <Button Command="Copy" Content="Copy" />

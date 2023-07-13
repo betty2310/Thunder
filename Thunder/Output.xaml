@@ -6,36 +6,17 @@
         xmlns:local="clr-namespace:CircuitSimulator"
         xmlns:vm="clr-namespace:CircuitSimulator.ViewModels"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
-         mc:Ignorable="d"
-        Title="Simulator Output" Height="auto" Width="auto">
+        mc:Ignorable="d"
+        Title="Simulator Output" Height="auto" Width="300">
     
-    <Window.DataContext>
-        <vm:OutputChart/>
-    </Window.DataContext>
-
     <StackPanel>
-        <lvc:CartesianChart
-                        Series="{Binding Series}">
-        </lvc:CartesianChart>
-        <TabControl Height="auto" Width="auto" BorderThickness="0,0,0,0">
-            <TabItem Header="Table">
-                <StackPanel>
-                    <DataGrid x:Name="DataTable" AutoGenerateColumns="False" BorderThickness="0,0,0,0">
-                        <DataGrid.Columns >
-                            <DataGridTextColumn Header="Input" Width="Auto" Binding="{Binding InputValue}" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Output" Width="Auto" Binding="{Binding OutputValue}" IsReadOnly="True" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="graph">
-                <StackPanel>
-                    <lvc:CartesianChart
-                        Series="{Binding Series}">
-                    </lvc:CartesianChart>
-                </StackPanel>
-            </TabItem>
-        </TabControl>
+        <Button Content="Open Graph view" Click="Click_Graph"></Button>
+        <DataGrid x:Name="DataTable" AutoGenerateColumns="False" BorderThickness="0,0,0,0">
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Input" Width="Auto" Binding="{Binding InputValue}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Output" Width="Auto" Binding="{Binding OutputValue}" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
     </StackPanel>
     
 </Window>

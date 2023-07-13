@@ -69,7 +69,7 @@ namespace CircuitSimulator
 
                         var decibels = 10.0 * Math.Log10(output.Real * output.Real + output.Imaginary * output.Imaginary);
                         System.Diagnostics.Debug.WriteLine($"{freq}Hz: {decibels}dB:       {magnitude}   {output.Real}+{output.Imaginary}i");
-                        simulationDataCollection.Add(new Data { InputValue = freq + " Hz", OutputValue = decibels + " dB" });
+                        simulationDataCollection.Add(new Data { InputValue = freq, OutputValue = decibels });
 
                     };
                     ac.Run(_spiceCircuit);
@@ -101,7 +101,7 @@ namespace CircuitSimulator
                         var output = outputExport.Value;
                         input = Math.Round(input, 2);
                         output = Math.Round(output, 2);
-                        simulationDataCollection.Add(new Data { InputValue = input + " V", OutputValue = output + " V" });
+                        simulationDataCollection.Add(new Data { InputValue = input, OutputValue = output });
                     };
                     dc.Run(_spiceCircuit);
 

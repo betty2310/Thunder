@@ -1,4 +1,5 @@
 ﻿using CircuitSimulator;
+using CircuitSimulator.ViewModels;
 using CircuitSimulator.Views;
 using Material.Icons;
 using System;
@@ -30,9 +31,9 @@ namespace Thunder
             Components = new ObservableCollection<BaseComponentView> {
                 new VoltageAnalysisView{CP_color = "green", CP_name = "Voltage Analysis"},
                 new ResistorView{CP_color = "red", CP_name = "Resistor"},
+                new CapacitorView{CP_color = "yellow", CP_name = "Capacitor"},
                 new VoltageView{CP_color = "blue", CP_name = "DC Power"},
                 new ACVoltageView{CP_color = "blue", CP_name = "AC Power"},
-                new CapacitorView{CP_color = "yellow", CP_name = "Capacitor"},
                 new GroundView{CP_name = "Ground", CP_color = "Gray"}
             };
 
