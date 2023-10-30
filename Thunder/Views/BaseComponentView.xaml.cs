@@ -188,9 +188,9 @@ namespace CircuitSimulator.Views
         }
         private void MenuItem_OnClick_Rotate(object sender, RoutedEventArgs e)
         {
-            Canvas.RenderTransformOrigin = new Point(0.5, 0.5); 
+            Canvas.RenderTransformOrigin = new Point(0.5, 0.5);
 
-            var rotateTransform = new RotateTransform(-90); 
+            var rotateTransform = new RotateTransform(-90);
             Canvas.RenderTransform = rotateTransform;
         }
     }

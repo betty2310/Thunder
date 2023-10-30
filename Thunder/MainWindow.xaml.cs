@@ -1,5 +1,4 @@
 ﻿using CircuitSimulator;
-using CircuitSimulator.ViewModels;
 using CircuitSimulator.Views;
 using Material.Icons;
 using System;
@@ -34,7 +33,7 @@ namespace Thunder
                 new CapacitorView{CP_color = "yellow", CP_name = "Capacitor"},
                 new VoltageView{CP_color = "blue", CP_name = "DC Power"},
                 new ACVoltageView{CP_color = "blue", CP_name = "AC Power"},
-                new GroundView{CP_name = "Ground", CP_color = "Gray"}
+                new GroundView{CP_name = "Ground", CP_color = "gray"}
             };
 
             // Set the data context for the ListBox
@@ -66,7 +65,6 @@ namespace Thunder
                     case "CapacitorView":
                         newComponent = new CapacitorView();
                         break;
-
                     case "VoltageAnalysisView":
                         newComponent = new VoltageAnalysisView();
                         break;
@@ -144,7 +142,7 @@ namespace Thunder
             {
                 App.Circuit.run();
                 string output = App.Circuit.SimulatorOutput.ToString();
-                if(output == "Error occur!")
+                if (output == "Error occur!")
                 {
                     MessageBox.Show("Error in circuit", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
                     StopSimulator();

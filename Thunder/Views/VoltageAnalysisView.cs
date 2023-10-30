@@ -1,17 +1,9 @@
 ﻿using CircuitSimulator.Models;
-using SpiceSharp.Components;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows;
 using System.Windows.Shapes;
 using Thunder;
-using SpiceSharp;
 
 namespace CircuitSimulator.Views
 {
@@ -60,7 +52,7 @@ namespace CircuitSimulator.Views
                         isOverConductor = true;
                         Rectangle.Fill = System.Windows.Media.Brushes.Green;
                         sourceComponent = conductor.EndComponent.Name;
-                        if(App.voltageAnalysis.Contains(this) == false)
+                        if (App.voltageAnalysis.Contains(this) == false)
                         {
                             App.voltageAnalysis.Add(this);
                         }
@@ -71,19 +63,20 @@ namespace CircuitSimulator.Views
                         }
                     }
 
-                    
+
                     return HitTestResultBehavior.Stop;
                 }), new PointHitTestParameters(mousePosition));
             }
-            if(!isOverConductor)
+            if (!isOverConductor)
             {
                 //Rectangle.Fill = System.Windows.Media.Brushes.Gray;
 
                 //App.voltageAnalysis.RemoveAll(va => va == this);
-                
-            } else
+
+            }
+            else
             {
-               
+
             }
         }
     }

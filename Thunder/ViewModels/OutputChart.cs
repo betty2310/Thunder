@@ -1,6 +1,4 @@
-﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
-using LiveChartsCore;
+﻿using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 
 namespace CircuitSimulator.ViewModels
@@ -19,5 +17,5 @@ namespace CircuitSimulator.ViewModels
     }
 }
 
-        
-    
+
+

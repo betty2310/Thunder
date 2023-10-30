@@ -1,9 +1,7 @@
 ﻿using CircuitSimulator.Models;
 using CircuitSimulator.Views;
 using SpiceSharp;
-using SpiceSharp.Algebra;
 using SpiceSharp.Components;
-using SpiceSharp.Components.BehavioralSources;
 using SpiceSharp.Simulations;
 using System;
 using System.Collections.Generic;
@@ -54,7 +52,7 @@ namespace CircuitSimulator
                     simulationDataCollection = new ObservableCollection<Data>();
 
                     var source = App.voltageAnalysis.Count > 0 ? App.voltageAnalysis[0].sourceComponent : "R1";
-                    if(source != "R1")
+                    if (source != "R1")
                         System.Diagnostics.Debug.WriteLine(source);
 
                     var ac = new AC("AC", new DecadeSweep(1.0e-2, 1.0e3, 5));

@@ -1,8 +1,7 @@
-﻿using System.Numerics;
-using SpiceSharp;
+﻿using SpiceSharp;
 using SpiceSharp.Components;
 using SpiceSharp.Simulations;
-using SpiceSharpParser.ModelWriters.CSharp;
+using System.Numerics;
 
 namespace SpiceSimulation
 {

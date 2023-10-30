@@ -1,10 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
-using CircuitSimulator.ViewModels;
-using CircuitSimulator.Views;
-using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
 using Thunder;
 
 namespace CircuitSimulator

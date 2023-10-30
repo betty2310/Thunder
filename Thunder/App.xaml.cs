@@ -14,7 +14,7 @@ namespace Thunder
     {
         public static Conductor CurrentConductor { get; set; }
         public static List<Conductor> Conductors = new List<Conductor>();
-        public static List<VoltageAnalysisView> voltageAnalysis = new List<VoltageAnalysisView>(); 
+        public static List<VoltageAnalysisView> voltageAnalysis = new List<VoltageAnalysisView>();
         public static Canvas CircuitCanvas { get; set; }
         public static MainCircuit Circuit { get; set; }
     }
