@@ -31,6 +31,7 @@ namespace Thunder
                 new VoltageAnalysisView{CP_color = "green", CP_name = "Voltage Analysis"},
                 new ResistorView{CP_color = "red", CP_name = "Resistor"},
                 new CapacitorView{CP_color = "yellow", CP_name = "Capacitor"},
+                new InductorView{CP_color = "purple", CP_name = "Inductor"},
                 new VoltageView{CP_color = "blue", CP_name = "DC Power"},
                 new ACVoltageView{CP_color = "blue", CP_name = "AC Power"},
                 new GroundView{CP_name = "Ground", CP_color = "gray"}
@@ -65,6 +66,9 @@ namespace Thunder
                     case "CapacitorView":
                         newComponent = new CapacitorView();
                         break;
+                    case "InductorView":
+                        newComponent = new InductorView();
+                        break;
                     case "VoltageAnalysisView":
                         newComponent = new VoltageAnalysisView();
                         break;
@@ -91,6 +95,7 @@ namespace Thunder
                 typeof(GroundView),
                 typeof(CapacitorView),
                 typeof(VoltageAnalysisView),
+                typeof(InductorView),
                 typeof(ACVoltageView)
             };
 

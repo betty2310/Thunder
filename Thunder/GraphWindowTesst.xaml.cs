@@ -25,7 +25,27 @@ namespace CircuitSimulator
                 }
             };
             OutputChart.Series = series;
-            OutputChart.ZoomMode = ZoomAndPanMode.X;
+            OutputChart.ZoomMode = ZoomAndPanMode.Both;
+            OutputChart.XAxes = XAxes;
+            OutputChart.YAxes = YAxes;
         }
+        public Axis[] XAxes { get; set; }
+            = new Axis[]
+            {
+                new Axis
+                {
+                    Name = "Frequency (Hz)",
+                }
+            };
+
+        public Axis[] YAxes { get; set; }
+            = new Axis[]
+            {
+                new Axis
+                {
+                    Name = "Ampliture (dB)",
+                }
+            };
     }
+
 }

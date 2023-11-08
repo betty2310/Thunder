@@ -67,7 +67,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <Canvas x:Name="CircuitCanvas" Background="White" Grid.Column="1" 
+                <Canvas x:Name="CircuitCanvas" Background="White" 
                     AllowDrop="True" 
                     DragOver="Canvas_DragOver"
                     MouseMove="Canvas_MouseMove" Grid.ColumnSpan="2">
