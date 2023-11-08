@@ -8,8 +8,8 @@
         mc:Ignorable="d"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         Title="Graph" Height="450" Width="800">
-    
+
     <lvc:CartesianChart x:Name="OutputChart"
-       >
-    </lvc:CartesianChart>
+       />
+
 </Window>

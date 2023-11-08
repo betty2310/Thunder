@@ -16,7 +16,7 @@ namespace CircuitSimulator
 {
     public class MainCircuit
     {
-        public Circuit _spiceCircuit { get; }
+        public Circuit SpiceCircuit { get; }
 
         private List<Conductor> _conductors;
 
@@ -25,7 +25,7 @@ namespace CircuitSimulator
 
         public MainCircuit()
         {
-            _spiceCircuit = new Circuit();
+            SpiceCircuit = new Circuit();
             _conductors = new List<Conductor>();
             SimulatorOutput = new StringBuilder();
             simulationDataCollection = new ObservableCollection<Data>();
@@ -34,7 +34,7 @@ namespace CircuitSimulator
         public void run()
         {
             bool fl = false;
-            foreach (var component in _spiceCircuit)
+            foreach (var component in SpiceCircuit)
             {
                 if (component.Name.Contains("AC"))
                 {
@@ -70,7 +70,7 @@ namespace CircuitSimulator
                         simulationDataCollection.Add(new Data { InputValue = freq, OutputValue = decibels });
 
                     };
-                    ac.Run(_spiceCircuit);
+                    ac.Run(SpiceCircuit);
                 }
                 catch (Exception ex)
                 {
@@ -101,10 +101,7 @@ namespace CircuitSimulator
                         output = Math.Round(output, 2);
                         simulationDataCollection.Add(new Data { InputValue = input, OutputValue = output });
                     };
-                    dc.Run(_spiceCircuit);
-
-
-
+                    dc.Run(SpiceCircuit);
                 }
                 catch (Exception ex)
                 {
@@ -139,67 +136,75 @@ namespace CircuitSimulator
             if (isDefaultComponent(start.SpiceComponent))
             {
                 start.SpiceComponent = CreateSpiceComponent(start, end);
-                if (!_spiceCircuit.Contains(start.SpiceComponent))
+                if (!SpiceCircuit.Contains(start.SpiceComponent))
                 {
                     System.Diagnostics.Debug.WriteLine("add start component: " + start.SpiceComponent);
-                    _spiceCircuit.Add(start.SpiceComponent);
+                    SpiceCircuit.Add(start.SpiceComponent);
                 }
             }
             if (isDefaultComponent(end.SpiceComponent))
             {
                 end.SpiceComponent = CreateSpiceComponent(end, start);
-                if (!_spiceCircuit.Contains(end.SpiceComponent))
+                if (!SpiceCircuit.Contains(end.SpiceComponent))
                 {
                     System.Diagnostics.Debug.WriteLine("add end component: " + end.SpiceComponent);
-                    _spiceCircuit.Add(end.SpiceComponent);
+                    SpiceCircuit.Add(end.SpiceComponent);
                 }
             }
 
 
-            int n = _spiceCircuit.Count;
+            int n = SpiceCircuit.Count;
             if (n >= 2)
             {
-                var pre = (Component)_spiceCircuit.ElementAt(n - 2);
-                var last = (Component)_spiceCircuit.ElementAt(n - 1);
+                var pre = (Component)SpiceCircuit.ElementAt(n - 2);
+                var last = (Component)SpiceCircuit.ElementAt(n - 1);
 
                 if (start is GroundView || end is GroundView)
                 {
-                    _spiceCircuit.Remove(last);
+                    SpiceCircuit.Remove(last);
                     if (last is Resistor res)
                     {
-                        _spiceCircuit.Add(new Resistor(last.Name, last.Nodes[0], "0", res.Parameters.Resistance));
+                        SpiceCircuit.Add(new Resistor(last.Name, last.Nodes[0], "0", res.Parameters.Resistance));
                     }
                     else if (last is Capacitor cap)
                     {
-                        _spiceCircuit.Add(new Capacitor(cap.Name, cap.Nodes[0], "0", cap.Parameters.Capacitance));
+                        SpiceCircuit.Add(new Capacitor(cap.Name, cap.Nodes[0], "0", cap.Parameters.Capacitance));
+                    }
+                    else if (last is Inductor ind)
+                    {
+                        SpiceCircuit.Add(new Inductor(ind.Name, ind.Nodes[0], "0", ind.Parameters.Inductance));
                     }
                     else if (last is VoltageSource voltage)
                     {
-                        _spiceCircuit.Add(new VoltageSource(last.Name, pre.Nodes[0], "0", voltage.Parameters.DcValue));
+                        SpiceCircuit.Add(new VoltageSource(last.Name, pre.Nodes[0], "0", voltage.Parameters.DcValue));
                     }
 
                 }
                 else if (pre != null && last != null)
                 {
-                    _spiceCircuit.Remove(pre);
+                    SpiceCircuit.Remove(pre);
                     if (pre.Nodes[1] == "0")
                     {
                         var vol = (VoltageSource)pre;
-                        _spiceCircuit.Add(new VoltageSource(pre.Name, last.Nodes[0], "0", vol.Parameters.DcValue));
+                        SpiceCircuit.Add(new VoltageSource(pre.Name, last.Nodes[0], "0", vol.Parameters.DcValue));
                     }
                     else
                     {
                         if (pre is Resistor res)
                         {
-                            _spiceCircuit.Add(new Resistor(pre.Name, pre.Nodes[0], last.Nodes[0], res.Parameters.Resistance));
+                            SpiceCircuit.Add(new Resistor(pre.Name, pre.Nodes[0], last.Nodes[0], res.Parameters.Resistance));
                         }
                         else if (pre is VoltageSource vol)
                         {
-                            _spiceCircuit.Add(new VoltageSource(pre.Name, last.Nodes[0], last.Nodes[0], vol.Parameters.DcValue));
+                            SpiceCircuit.Add(new VoltageSource(pre.Name, last.Nodes[0], last.Nodes[0], vol.Parameters.DcValue));
+                        }
+                        else if (pre is Inductor ind)
+                        {
+                            SpiceCircuit.Add(new Inductor(ind.Name, ind.Nodes[0], last.Nodes[0], ind.Parameters.Inductance));
                         }
                         else if (pre is Capacitor cap)
                         {
-                            _spiceCircuit.Add(new Capacitor(cap.Name, cap.Nodes[0], cap.Nodes[0], cap.Parameters.Capacitance));
+                            SpiceCircuit.Add(new Capacitor(cap.Name, cap.Nodes[0], last.Nodes[0], cap.Parameters.Capacitance));
                         }
                     }
                 }
@@ -226,6 +231,8 @@ namespace CircuitSimulator
                     return null;
                 case ComponentType.Capacitor:
                     return new Capacitor(component.Name, component.Name, connectedComponent.Name, 1.0e-6);
+                case ComponentType.Inductor:
+                    return new Inductor(component.Name, component.Name, connectedComponent.Name, 1.0e-6);
                 default:
                     throw new Exception($"Unknown component type: {component.componentType}");
             }
@@ -253,6 +260,14 @@ namespace CircuitSimulator
                     return true;
                 }
             }
+            else if (cp is Inductor)
+            {
+                string name = (cp as Inductor).Name;
+                if (name == "default")
+                {
+                    return true;
+                }
+            }
             else if (cp is Capacitor)
             {
                 string name = (cp as Capacitor).Name;
@@ -268,7 +283,7 @@ namespace CircuitSimulator
 
         private void logCircuit()
         {
-            foreach (Component component in _spiceCircuit)
+            foreach (Component component in SpiceCircuit)
             {
                 System.Diagnostics.Debug.WriteLine(component);
             }

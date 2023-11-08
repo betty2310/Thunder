@@ -167,7 +167,7 @@ namespace CircuitSimulator.Views
 
             if (SpiceComponent != null)
             {
-                App.Circuit._spiceCircuit.Remove(SpiceComponent);
+                App.Circuit.SpiceCircuit.Remove(SpiceComponent);
             }
 
             for (var index = 0; index < App.Conductors.Count; index++)

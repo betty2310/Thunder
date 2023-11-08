@@ -38,7 +38,7 @@ namespace CircuitSimulator.Views
 
         private void UpdateResistance()
         {
-            foreach (var entity in App.Circuit._spiceCircuit)
+            foreach (var entity in App.Circuit.SpiceCircuit)
             {
                 var component = (Component)entity;
                 if (component.Name == Name && component is Resistor resistor)
