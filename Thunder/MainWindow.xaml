@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Thunder"
-        xmlns:views="clr-namespace:Thunder.Views"
+        xmlns:viewsn="clr-namespace:Thunder.Views"
+        xmlns:component="clr-namespace:CircuitSimulator.Components"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
 
         mc:Ignorable="d"
@@ -27,12 +28,12 @@
                 <Button x:Name="RunButton" ToolTip="Click to run simulator of this circuit!" Click="RunSimulator" >
                     <StackPanel Orientation="Horizontal">
                         <materialIcons:MaterialIcon x:Name="IconRunButton" Kind="CogPlay" Foreground="Green" Width="16" />
-                       
+
                         <TextBlock x:Name="textRunButton" Margin="3,0,0,0">Run simulator</TextBlock>
                     </StackPanel>
                 </Button>
             </ToolBar>
-            
+
             <ToolBar Band="1">
                 <Button Command="Cut" Content="Cut" />
                 <Button Command="Copy" Content="Copy" />
@@ -43,7 +44,6 @@
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="11*" />
                 <ColumnDefinition Width="639*"/>
             </Grid.ColumnDefinitions>
 
@@ -66,12 +66,16 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
-                <Canvas x:Name="CircuitCanvas" Background="White" 
+            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+            <component:CircuitCanvas x:Name="CircuitCanvas"
+                                     Background="White"
+                    RenderTransformOrigin="0.5,0.5"
                     AllowDrop="True" 
                     DragOver="Canvas_DragOver"
-                    MouseMove="Canvas_MouseMove" Grid.ColumnSpan="2">
-            </Canvas>
+                    MouseMove="Canvas_MouseMove" Grid.ColumnSpan="2"
+                                     />
+            </ScrollViewer>
+
         </Grid>
 
         <StatusBar x:Name="bar" Background="#006cbe" Height="25" Grid.Row="2">
@@ -83,8 +87,8 @@
                 <TextBlock Name="lblCursorPosition" Foreground="White" />
 
             </StatusBarItem>
-            
-            
+
+
 
         </StatusBar>
     </Grid>

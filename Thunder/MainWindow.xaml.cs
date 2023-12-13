@@ -1,5 +1,6 @@
 ﻿using CircuitSimulator;
 using CircuitSimulator.Views;
+using log4net;
 using Material.Icons;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+
 
 namespace Thunder
 {
@@ -20,10 +22,17 @@ namespace Thunder
 
         private bool _isSimulatorRunning = false;
 
+        private double _zoom = 1.0;
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
 
         public MainWindow()
         {
             InitializeComponent();
+            log4net.Config.XmlConfigurator.Configure();
+
             App.CircuitCanvas = CircuitCanvas;
             App.Circuit = new MainCircuit();
 
@@ -113,6 +122,7 @@ namespace Thunder
             Canvas.SetTop(component, position.Y);
             if (!CircuitCanvas.Children.Contains(component))
             {
+                log.Info(string.Format("Component {0} is dragged to position ({1}, {2})", component.Name, position.X, position.Y));
                 CircuitCanvas.Children.Add(component);
             }
         }

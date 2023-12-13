@@ -16,18 +16,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="log4net.config" />
     <None Remove="MainCircuit.cs~RFfa57e.TMP" />
     <None Remove="MainWindow.xaml.cs~RF4e6bfd.TMP" />
     <None Remove="Resources\Icons\play-16.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\pacman.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-beta.810" />
+    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="log4net.Ext.Json" Version="2.0.10.1" />
     <PackageReference Include="Material.Icons.WPF" Version="2.0.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="SpiceSharp" Version="3.1.7" />
