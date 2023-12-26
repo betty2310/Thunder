@@ -80,7 +80,7 @@ namespace CircuitSimulator.Views
                 App.CurrentConductor = new Conductor();
                 App.CurrentConductor.StartComponent = this;
                 App.CurrentConductor.X1 = position.X + 5;
-                App.CurrentConductor.Y1 = position.Y + 5;
+                App.CurrentConductor.Y1 = position.Y;
 
                 conductors.Add(ellipse, App.CurrentConductor);
             }
@@ -88,7 +88,7 @@ namespace CircuitSimulator.Views
             {
                 App.CurrentConductor.EndComponent = this;
                 App.CurrentConductor.X2 = position.X + 5;
-                App.CurrentConductor.Y2 = position.Y + 5;
+                App.CurrentConductor.Y2 = position.Y;
 
                 App.CurrentConductor.Connect();
                 conductors.Add(ellipse, App.CurrentConductor);
@@ -112,16 +112,16 @@ namespace CircuitSimulator.Views
             {
                 App.CurrentConductor = new Conductor();
                 App.CurrentConductor.StartComponent = this;
-                App.CurrentConductor.X1 = position.X;
-                App.CurrentConductor.Y1 = position.Y;
+                App.CurrentConductor.X1 = position.X + 5;
+                App.CurrentConductor.Y1 = position.Y + 10;
 
                 conductors.Add(ellipse, App.CurrentConductor);
             }
             else
             {
                 App.CurrentConductor.EndComponent = this;
-                App.CurrentConductor.X2 = position.X;
-                App.CurrentConductor.Y2 = position.Y;
+                App.CurrentConductor.X2 = position.X + 5;
+                App.CurrentConductor.Y2 = position.Y + 10;
 
 
                 App.CurrentConductor.Connect();

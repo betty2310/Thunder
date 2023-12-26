@@ -10,7 +10,7 @@
 
         mc:Ignorable="d"
         x:Name="root"
-        Title="Circuit Simulator ⚡" Width="900" Height="600">
+        Title="Circuit Simulator ⚡" Width="800" Height="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

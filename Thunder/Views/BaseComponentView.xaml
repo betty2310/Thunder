@@ -9,7 +9,7 @@
     x:Class="CircuitSimulator.Views.BaseComponentView"
     mc:Ignorable="d" 
     d:DesignHeight="1000" d:DesignWidth="1000">
-    <Canvas x:Name="Canvas"  MouseRightButtonDown="Component_OnMouseRightButtonDown">
+    <Canvas x:Name="Canvas" Width="20" Height="60" MouseRightButtonDown="Component_OnMouseRightButtonDown">
         <Canvas.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Edit" >
@@ -38,10 +38,10 @@
             </ContextMenu>
         </Canvas.ContextMenu>
 
-        <Ellipse x:Name="Top" Canvas.Left="5" Canvas.Top="-10" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipsePos_MouseDown"/>
-        <Rectangle x:Name="Rectangle" Height="40" Width="20" Fill="DimGray" MouseMove="Component_MouseMove" DragLeave="Component_DragLeave">
+        <Ellipse x:Name="Top" Canvas.Left="-5" Canvas.Top="0" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipsePos_MouseDown"/>
+        <Rectangle x:Name="Rectangle" Canvas.Left="-10" Canvas.Top="10" Height="40" Width="20" Fill="DimGray" MouseMove="Component_MouseMove" DragLeave="Component_DragLeave">
         </Rectangle>
-        <Ellipse x:Name="Bot" Canvas.Left="5" Canvas.Top="40" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipseNeg_MouseDown"/>
+        <Ellipse x:Name="Bot" Canvas.Left="-5" Canvas.Top="50" Height="10" Stroke="Black" Width="10" Cursor="Pen" StrokeThickness="5" MouseDown="EllipseNeg_MouseDown"/>
         <TextBox x:Name="Value" Canvas.Left="20" Canvas.Top="5" MouseDoubleClick="Value_OnMouseLeftButtonDown" Cursor="IBeam" FontSize="14" BorderThickness="0,0,0,0" IsReadOnly="False" LostFocus="Value_LostFocus" KeyDown="Value_KeyDown"></TextBox>
         <TextBox x:Name="Node" Canvas.Left="-20" Canvas.Top="5" FontSize="14" BorderThickness="0,0,0,0" IsReadOnly="True"></TextBox>
 

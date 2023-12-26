@@ -95,9 +95,9 @@ namespace Thunder
 
         private void Canvas_DragOver(object sender, DragEventArgs e)
         {
-            BaseComponentView component = null;
+            BaseComponentView? component = null;
 
-            List<Type> componentTypeMap = new List<Type>
+            List<Type> componentTypeMap = new()
             {
                 typeof(ResistorView),
                 typeof(VoltageView),
@@ -118,11 +118,14 @@ namespace Thunder
             }
 
             Point position = e.GetPosition(CircuitCanvas);
-            Canvas.SetLeft(component, position.X);
-            Canvas.SetTop(component, position.Y);
+            int gridUnit = 20;
+            double x = Math.Round(position.X / gridUnit) * gridUnit;
+            double y = Math.Round(position.Y / gridUnit) * gridUnit;
+            Canvas.SetLeft(component, x);
+            Canvas.SetTop(component, y);
+            log.Info(string.Format("Component {0} is dragged to position ({1}, {2})", component.Name, x, y));
             if (!CircuitCanvas.Children.Contains(component))
             {
-                log.Info(string.Format("Component {0} is dragged to position ({1}, {2})", component.Name, position.X, position.Y));
                 CircuitCanvas.Children.Add(component);
             }
         }

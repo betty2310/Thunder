@@ -27,61 +27,38 @@ namespace CircuitSimulator.Components
         public CircuitCanvas()
         {
             InitializeComponent();
-            MouseDown += PanAndZoomCanvas_MouseDown;
-            MouseUp += PanAndZoomCanvas_MouseUp;
-            MouseMove += PanAndZoomCanvas_MouseMove;
-            MouseWheel += PanAndZoomCanvas_MouseWheel;
+            //MouseDown += PanAndZoomCanvas_MouseDown;
+            //MouseUp += PanAndZoomCanvas_MouseUp;
+            //MouseMove += PanAndZoomCanvas_MouseMove;
+            //MouseWheel += PanAndZoomCanvas_MouseWheel;
 
             BackgroundColor = _backgroundColor;
+            // Dot properties
+            int dotSize = 2; // Size of the dots
+            var dotBrush = new SolidColorBrush(_lineColor);
 
-            // draw lines
-            for (int x = -4000; x <= 4000; x += 100)
+            // Create dots instead of lines
+            for (int x = 0; x <= 700; x += 20)
             {
-                Line verticalLine = new Line
+                for (int y = 0; y <= 600; y += 20)
                 {
-                    Stroke = new SolidColorBrush(_lineColor),
-                    X1 = x,
-                    Y1 = -4000,
-                    X2 = x,
-                    Y2 = 4000
-                };
 
-                if (x % 1000 == 0)
-                {
-                    verticalLine.StrokeThickness = 6;
-                }
-                else
-                {
-                    verticalLine.StrokeThickness = 2;
+                    Ellipse dot = new()
+                    {
+                        Width = dotSize,
+                        Height = dotSize,
+                        Fill = dotBrush
+                    };
+
+                    // Position the dot
+                    Canvas.SetLeft(dot, x - dotSize / 2);
+                    Canvas.SetTop(dot, y - dotSize / 2);
+
+                    Children.Add(dot);
                 }
 
-                Children.Add(verticalLine);
-                _gridLines.Add(verticalLine);
             }
 
-            for (int y = -4000; y <= 4000; y += 100)
-            {
-                Line horizontalLine = new Line
-                {
-                    Stroke = new SolidColorBrush(_lineColor),
-                    X1 = -4000,
-                    Y1 = y,
-                    X2 = 4000,
-                    Y2 = y
-                };
-
-                if (y % 1000 == 0)
-                {
-                    horizontalLine.StrokeThickness = 6;
-                }
-                else
-                {
-                    horizontalLine.StrokeThickness = 2;
-                }
-
-                Children.Add(horizontalLine);
-                _gridLines.Add(horizontalLine);
-            }
         }
 
         public float Zoomfactor { get; set; } = 1.1f;
@@ -179,7 +156,7 @@ namespace CircuitSimulator.Components
         private void PanAndZoomCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             float scaleFactor = Zoomfactor;
-            if (e.Delta < 0)
+            if (e.Delta < 0) // zoom out
             {
                 scaleFactor = 1f / scaleFactor;
             }
@@ -189,7 +166,6 @@ namespace CircuitSimulator.Components
             Matrix scaleMatrix = _transform.Matrix;
             scaleMatrix.ScaleAt(scaleFactor, scaleFactor, mousePostion.X, mousePostion.Y);
             _transform.Matrix = scaleMatrix;
-            System.Diagnostics.Debug.WriteLine($"Scale: {_transform.Matrix.M11}");
 
             foreach (UIElement child in this.Children)
             {
