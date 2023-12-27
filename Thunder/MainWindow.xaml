@@ -7,7 +7,7 @@
         xmlns:viewsn="clr-namespace:Thunder.Views"
         xmlns:component="clr-namespace:CircuitSimulator.Components"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
-
+        KeyDown="root_KeyDown"
         mc:Ignorable="d"
         x:Name="root"
         Title="Circuit Simulator ⚡" Width="800" Height="600">
@@ -43,38 +43,82 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="639*"/>
+                <ColumnDefinition Width="Auto" MinWidth="100" MaxWidth="200"/>
+                <ColumnDefinition Width="2"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Background="#FFF0EBEB">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <ListBox x:Name="ComponentList" Background="#FFF0EBEB" Width="250" Grid.Column="0" 
-                     MouseMove="Component_MouseMove" Cursor="Hand" 
-                    >
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Rectangle Fill="{Binding CP_color}" Grid.Column="0" Height="20" Width="20"/>
-                            <StackPanel Grid.Column="1">
-                                <TextBlock Text="{Binding CP_name}" Margin="10" FontSize="15"/>
-                                <!--<TextBlock Text="{Binding Value}" Margin="5"/>-->
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                <Grid Grid.Row="0">
+                    <TextBox  Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="SearchBox" TextChanged="SearchBox_TextChanged" Margin="5"/>
+                    <TextBlock IsHitTestVisible="False" Text="Enter Search Term Here" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=SearchTermTextBox}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+                <ListBox x:Name="ComponentList" Width="250" MouseMove="Component_MouseMove" Cursor="Hand" Grid.Row="1">
+                    <ListBox.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <Expander IsExpanded="True">
+                                                    <Expander.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="12" VerticalAlignment="Bottom" />
+                                                            <TextBlock Text="{Binding ItemCount}" FontSize="12" Foreground="Green" FontWeight="Bold" FontStyle="Italic" Margin="5,0,0,0" VerticalAlignment="Bottom" />
+                                                            <TextBlock Text=" items" FontSize="12" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                        </StackPanel>
+                                                    </Expander.Header>
+                                                    <ItemsPresenter />
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </ListBox.GroupStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Fill="{Binding CP_color}" Grid.Column="0" Height="20" Width="20"/>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding CP_name}" Margin="10" FontSize="12"/>
+                                    <!--<TextBlock Text="{Binding Value}" Margin="5"/>-->
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+        </Grid>
+            <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Center" 
+                  Background="Gray" ResizeBehavior="PreviousAndNext" />
             <component:CircuitCanvas x:Name="CircuitCanvas"
                                      Background="White"
-                    RenderTransformOrigin="0.5,0.5"
+                                    RenderTransformOrigin="0.5,0.5"
                     AllowDrop="True" 
                     DragOver="Canvas_DragOver"
-                    MouseMove="Canvas_MouseMove" Grid.ColumnSpan="2"
-                                     />
-            </ScrollViewer>
+                    MouseMove="Canvas_MouseMove" Grid.Column="2" />
 
         </Grid>
 

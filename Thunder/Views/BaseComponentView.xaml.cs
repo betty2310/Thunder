@@ -29,6 +29,8 @@ namespace CircuitSimulator.Views
 
 
         public ComponentType componentType { get; set; }
+
+        public string Group { get; set; }
         public event EventHandler OnMoved;
         public Dictionary<Ellipse, IConductor> conductors = new Dictionary<Ellipse, IConductor>();
 
@@ -69,7 +71,6 @@ namespace CircuitSimulator.Views
             var ellipse = sender as Ellipse;
 
             Point position = GetPositionOnCanvas(ellipse, App.CircuitCanvas);
-
             if (conductors.ContainsKey(ellipse) && conductors[ellipse] != null)
             {
                 return;
@@ -78,6 +79,7 @@ namespace CircuitSimulator.Views
             if (App.CurrentConductor == null)
             {
                 App.CurrentConductor = new Conductor();
+                App.TempLineService?.StartLine(position);
                 App.CurrentConductor.StartComponent = this;
                 App.CurrentConductor.X1 = position.X + 5;
                 App.CurrentConductor.Y1 = position.Y;
@@ -89,6 +91,7 @@ namespace CircuitSimulator.Views
                 App.CurrentConductor.EndComponent = this;
                 App.CurrentConductor.X2 = position.X + 5;
                 App.CurrentConductor.Y2 = position.Y;
+                App.TempLineService?.FinalizeLine();
 
                 App.CurrentConductor.Connect();
                 conductors.Add(ellipse, App.CurrentConductor);
@@ -111,6 +114,7 @@ namespace CircuitSimulator.Views
             if (App.CurrentConductor == null)
             {
                 App.CurrentConductor = new Conductor();
+                App.TempLineService?.StartLine(position);
                 App.CurrentConductor.StartComponent = this;
                 App.CurrentConductor.X1 = position.X + 5;
                 App.CurrentConductor.Y1 = position.Y + 10;
@@ -122,7 +126,7 @@ namespace CircuitSimulator.Views
                 App.CurrentConductor.EndComponent = this;
                 App.CurrentConductor.X2 = position.X + 5;
                 App.CurrentConductor.Y2 = position.Y + 10;
-
+                App.TempLineService?.FinalizeLine();
 
                 App.CurrentConductor.Connect();
                 conductors.Add(ellipse, App.CurrentConductor);
@@ -181,7 +185,7 @@ namespace CircuitSimulator.Views
                     conductorEndComponent.conductors.Remove(conductorEndComponent.conductors.First().Key);
                 }
 
-                App.CircuitCanvas.Children.Remove(conductor.line);
+                App.CircuitCanvas.Children.Remove(conductor.polyline);
                 App.Conductors.Remove(conductor);
                 index--;
             }

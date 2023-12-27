@@ -1,4 +1,5 @@
 ﻿using CircuitSimulator;
+using CircuitSimulator.Services;
 using CircuitSimulator.Views;
 using log4net;
 using Material.Icons;
@@ -7,9 +8,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-
 
 namespace Thunder
 {
@@ -26,6 +27,7 @@ namespace Thunder
 
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        public CollectionView ComponentsCollectionView { get; set; }
 
 
         public MainWindow()
@@ -36,18 +38,25 @@ namespace Thunder
             App.CircuitCanvas = CircuitCanvas;
             App.Circuit = new MainCircuit();
 
+            App.TempLineService = new TempLineService(CircuitCanvas);
+
+
             Components = new ObservableCollection<BaseComponentView> {
-                new VoltageAnalysisView{CP_color = "green", CP_name = "Voltage Analysis"},
-                new ResistorView{CP_color = "red", CP_name = "Resistor"},
-                new CapacitorView{CP_color = "yellow", CP_name = "Capacitor"},
-                new InductorView{CP_color = "purple", CP_name = "Inductor"},
-                new VoltageView{CP_color = "blue", CP_name = "DC Power"},
-                new ACVoltageView{CP_color = "blue", CP_name = "AC Power"},
-                new GroundView{CP_name = "Ground", CP_color = "gray"}
+                new VoltageAnalysisView{CP_color = "green", CP_name = "Voltage Analysis", Group=""},
+                new ResistorView{CP_color = "red", CP_name = "Resistor", Group="Basic"},
+                new CapacitorView{CP_color = "yellow", CP_name = "Capacitor", Group="Basic"},
+                new InductorView{CP_color = "purple", CP_name = "Inductor", Group="Basic"},
+                new VoltageView{CP_color = "blue", CP_name = "DC Power", Group="Sources"},
+                new ACVoltageView{CP_color = "blue", CP_name = "AC Power", Group="Sources"},
+                new GroundView{CP_name = "Ground", CP_color = "gray", Group="Sources"}
             };
 
             // Set the data context for the ListBox
             ComponentList.ItemsSource = Components;
+
+            ComponentsCollectionView = (CollectionView)CollectionViewSource.GetDefaultView(ComponentList.ItemsSource);
+            var groupDescription = new PropertyGroupDescription("Group");
+            ComponentsCollectionView.GroupDescriptions.Add(groupDescription);
         }
         private void Component_MouseMove(object sender, MouseEventArgs e)
         {
@@ -90,6 +99,7 @@ namespace Thunder
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             System.Windows.Point mousePosition = e.GetPosition(CircuitCanvas);
+            App.TempLineService.UpdateLine(mousePosition);
             lblCursorPosition.Text = $"{Convert.ToInt32(mousePosition.X)}-{Convert.ToInt32(mousePosition.Y)}";
         }
 
@@ -196,5 +206,39 @@ namespace Thunder
 
             App.Circuit.SimulatorOutput.Clear();
         }
+
+        private void root_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                // Check if the wire is being drawn
+                if (App.TempLineService.tempLine != null)
+                {
+                    // Remove the wire from the canvas
+                    CircuitCanvas.Children.Remove(App.TempLineService.tempLine);
+                    App.TempLineService.tempLine = null;
+
+                    // Reset any other state related to drawing the wire
+                    // ...
+                }
+            }
+        }
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (ComponentsCollectionView != null)
+            {
+                ComponentsCollectionView.Filter = (item) =>
+                {
+                    if (item is BaseComponentView component)
+                    {
+                        return component.CP_name.ToLower().Contains(SearchBox.Text.ToLower());
+                    }
+                    return false;
+                };
+
+            }
+        }
+
     }
 }

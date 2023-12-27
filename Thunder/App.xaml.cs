@@ -1,5 +1,6 @@
 ﻿using CircuitSimulator;
 using CircuitSimulator.Models;
+using CircuitSimulator.Services;
 using CircuitSimulator.Views;
 using log4net;
 using System.Collections.Generic;
@@ -21,6 +22,8 @@ namespace Thunder
         public static List<VoltageAnalysisView> voltageAnalysis = new List<VoltageAnalysisView>();
         public static Canvas CircuitCanvas { get; set; }
         public static MainCircuit Circuit { get; set; }
+
+        public static TempLineService? TempLineService { get; set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {

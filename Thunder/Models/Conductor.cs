@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using Thunder;
 
@@ -18,24 +19,33 @@ namespace CircuitSimulator.Models
         public event EventHandler OnConductorConnected;
 
 
-        public Line line;
+        public Polyline polyline;
 
         public void Draw(Canvas canvas)
         {
-            if (line != null)
+            if (polyline != null)
             {
-                canvas.Children.Remove(line);
+                canvas.Children.Remove(polyline);
             }
-            line = new Line
+            // Calculate the intermediate point
+            double midX = (X1 + X2) / 2;
+            double midY = (Y1 + Y2) / 2;
+
+            // Create a Polyline
+            polyline = new Polyline
             {
-                X1 = X1,
-                Y1 = Y1,
-                X2 = X2,
-                Y2 = Y2,
-                Stroke = System.Windows.Media.Brushes.Black,
+                Stroke = Brushes.Black,
                 StrokeThickness = 2
             };
-            canvas.Children.Add(line);
+
+            // Add points to the Polyline
+            polyline.Points.Add(new Point(X1, Y1));
+            polyline.Points.Add(new Point(X1, Y1)); // Horizontal to midpoint
+            polyline.Points.Add(new Point(X1, Y2)); // Vertical to end point
+            polyline.Points.Add(new Point(X2, Y2));
+
+            // Add the Polyline to the canvas
+            canvas.Children.Add(polyline);
             App.Conductors.Add(this);
 
         }

@@ -17,9 +17,10 @@ namespace CircuitSimulator.Views
             Value.Visibility = System.Windows.Visibility.Hidden;
             Top.Visibility = System.Windows.Visibility.Hidden;
             Bot.Visibility = System.Windows.Visibility.Hidden;
+            Node.Visibility = System.Windows.Visibility.Hidden;
 
-            Rectangle.Width = 25;
-            Rectangle.Height = 25;
+            Rectangle.Width = 20;
+            Rectangle.Height = 20;
 
             //Rectangle.Visibility = System.Windows.Visibility.Hidden;
             //Ellipse ellipse = new Ellipse();
@@ -45,9 +46,9 @@ namespace CircuitSimulator.Views
             mousePosition.Y += 10;
             foreach (Conductor conductor in App.Conductors)
             {
-                VisualTreeHelper.HitTest(conductor.line, null, new HitTestResultCallback((result) =>
+                VisualTreeHelper.HitTest(conductor.polyline, null, new HitTestResultCallback((result) =>
                 {
-                    if (result.VisualHit == conductor.line)
+                    if (result.VisualHit == conductor.polyline)
                     {
                         isOverConductor = true;
                         Rectangle.Fill = System.Windows.Media.Brushes.Green;
