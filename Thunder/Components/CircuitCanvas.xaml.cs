@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Thunder;
 
 namespace CircuitSimulator.Components
 {
@@ -22,7 +23,7 @@ namespace CircuitSimulator.Components
 
         private Color _lineColor = Color.FromArgb(0xFF, 0x66, 0x66, 0x66);
         private Color _backgroundColor = Color.FromArgb(0xFF, 0x33, 0x33, 0x33);
-        private List<Line> _gridLines = new List<Line>();
+        private List<Ellipse> _gridEllipses = new List<Ellipse>();
 
 
         public CircuitCanvas()
@@ -39,11 +40,9 @@ namespace CircuitSimulator.Components
 
             Properties.Settings.Default.PropertyChanged += (sender, e) =>
             {
-                if (e.PropertyName == "use_dot")
-                {
-                    Debug.WriteLine("use_dot changed");
-                    //SetGridVisibility(Properties.Settings.Default.use_dot ? Visibility.Visible : Visibility.Hidden);
-                }
+                if (e.PropertyName != "use_dot") return;
+                App.logger.Info($"Setting: use_dot = {Properties.Settings.Default.use_dot}");
+                SetGridVisibility(Properties.Settings.Default.use_dot ? Visibility.Visible : Visibility.Hidden);
             };
 
             var dotBrush = new SolidColorBrush(_lineColor);
@@ -66,6 +65,7 @@ namespace CircuitSimulator.Components
                     Canvas.SetTop(dot, y - dotSize / 2);
 
                     Children.Add(dot);
+                    _gridEllipses.Add(dot);
                 }
 
             }
@@ -73,21 +73,6 @@ namespace CircuitSimulator.Components
         }
 
         public float Zoomfactor { get; set; } = 1.1f;
-
-        public Color LineColor
-        {
-            get { return _lineColor; }
-
-            set
-            {
-                _lineColor = value;
-
-                foreach (Line line in _gridLines)
-                {
-                    line.Stroke = new SolidColorBrush(_lineColor);
-                }
-            }
-        }
 
         public Color BackgroundColor
         {
@@ -102,9 +87,9 @@ namespace CircuitSimulator.Components
 
         public void SetGridVisibility(Visibility value)
         {
-            foreach (Line line in _gridLines)
+            foreach (Ellipse e in _gridEllipses)
             {
-                line.Visibility = value;
+                e.Visibility = value;
             }
         }
 

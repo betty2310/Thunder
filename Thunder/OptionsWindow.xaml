@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CircuitSimulator"
         mc:Ignorable="d"
-        Title="Options" Height="250" Width="300">
+        Title="Options" Height="300" Width="300">
     <Grid>
-        <CheckBox x:Name="chkShowGrid" Content="Show Grid" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="{Binding ShowGrid, Mode=TwoWay}"/>
+        <CheckBox x:Name="ChkShowGrid" Content="Show Grid" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Width="75" Click="SaveButton_Click"/>
     </Grid>
 </Window>
