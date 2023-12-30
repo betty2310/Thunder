@@ -22,6 +22,8 @@ namespace Thunder
         public static List<VoltageAnalysisView> voltageAnalysis = new List<VoltageAnalysisView>();
         public static Canvas CircuitCanvas { get; set; }
         public static MainCircuit Circuit { get; set; }
+        
+        public static ILog logger { get; set; }
 
         public static TempLineService? TempLineService { get; set; }
 

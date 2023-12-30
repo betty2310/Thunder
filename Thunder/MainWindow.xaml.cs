@@ -35,6 +35,7 @@ namespace Thunder
             InitializeComponent();
             log4net.Config.XmlConfigurator.Configure();
 
+            App.logger = log;
             App.CircuitCanvas = CircuitCanvas;
             App.Circuit = new MainCircuit();
 
