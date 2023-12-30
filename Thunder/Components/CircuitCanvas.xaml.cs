@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -35,6 +36,16 @@ namespace CircuitSimulator.Components
             BackgroundColor = _backgroundColor;
             // Dot properties
             int dotSize = 2; // Size of the dots
+
+            Properties.Settings.Default.PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName == "use_dot")
+                {
+                    Debug.WriteLine("use_dot changed");
+                    //SetGridVisibility(Properties.Settings.Default.use_dot ? Visibility.Visible : Visibility.Hidden);
+                }
+            };
+
             var dotBrush = new SolidColorBrush(_lineColor);
 
             // Create dots instead of lines

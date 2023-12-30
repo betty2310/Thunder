@@ -240,5 +240,10 @@ namespace Thunder
             }
         }
 
+        private void MenuItem_Options_Click(object sender, RoutedEventArgs e)
+        {
+            var optionsWindow = new OptionsWindow();
+            optionsWindow.ShowDialog();
+        }
     }
 }
