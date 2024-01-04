@@ -20,8 +20,21 @@ namespace CircuitSimulator
 
         private List<Conductor> _conductors;
 
+        public  List<Conductor> Conductors
+        {
+            get => _conductors;
+            set => _conductors = value;
+        }
+
         public StringBuilder SimulatorOutput { get; set; }
         public ObservableCollection<Data> simulationDataCollection { get; set; }
+
+        // Define a delegate for the event
+        public delegate void SimulationCompletedHandler(object sender, EventArgs e);
+
+        // Define the event based on the delegate
+        public event SimulationCompletedHandler SimulationCompleted;
+        public event SimulationCompletedHandler StopSimulation;
 
         public MainCircuit()
         {
@@ -109,6 +122,12 @@ namespace CircuitSimulator
                     SimulatorOutput.Append("Error occur!");
                 }
             }
+            OnSimulationCompleted();
+        }
+
+        protected virtual void OnSimulationCompleted()
+        {
+            SimulationCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         public void AddConductor(Conductor conductor)
@@ -287,6 +306,12 @@ namespace CircuitSimulator
             {
                 System.Diagnostics.Debug.WriteLine(component);
             }
+        }
+
+        public void StopCircuit()
+        {
+            SimulatorOutput.Clear();
+            StopSimulation?.Invoke(this, EventArgs.Empty);
         }
     }
 }

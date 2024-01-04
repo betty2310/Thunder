@@ -23,7 +23,7 @@ namespace CircuitSimulator.Components
 
         private Color _lineColor = Color.FromArgb(0xFF, 0x66, 0x66, 0x66);
         private Color _backgroundColor = Color.FromArgb(0xFF, 0x33, 0x33, 0x33);
-        private List<Ellipse> _gridEllipses = new List<Ellipse>();
+        private List<Ellipse> _gridEllipses = new();
 
 
         public CircuitCanvas()

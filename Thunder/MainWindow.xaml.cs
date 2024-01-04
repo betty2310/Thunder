@@ -205,7 +205,7 @@ namespace Thunder
             IconRunButton.Foreground = Brushes.Green;
             // TODO: Stop the simulation logic
 
-            App.Circuit.SimulatorOutput.Clear();
+            App.Circuit.StopCircuit();
         }
 
         private void root_KeyDown(object sender, KeyEventArgs e)
